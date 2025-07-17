@@ -35,21 +35,21 @@ function Sidebar({ className }: SidebarProps) {
         <nav className="space-y-2">
           <SidebarButton
             icon={<BsColumnsGap />}
-            label="รายงานการขาย"
+            label="Sales Report"
             href="/sales-report"
             isActive={isSalesReport}
           />
 
           <SidebarButton
             icon={<LuPlaneTakeoff />}
-            label="ข้อมูลคนพิเศษ"
+            label="Trip Information"
             href="/special-data"
             isActive={isSpecialData}
           />
 
           <SidebarButton
             icon={<TbUsers />}
-            label="รายงานเซลล์"
+            label="Sales Data"
             href="/sell-report"
             isActive={isSellReport}
           />
