@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 import "./globals.css";
 
 
@@ -15,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Navbar />
-        {children}
+      <body className="flex flex-row min-h-screen relative">
+        <Sidebar className="w-80 fixed h-screen" />
+        <main className="flex-1 ml-80">{children}</main>
       </body>
     </html>
   );
