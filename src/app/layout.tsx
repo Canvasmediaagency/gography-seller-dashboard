@@ -15,9 +15,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex flex-row min-h-screen relative">
-        <Sidebar className="w-80 fixed h-screen" />
-        <main className="flex-1 ml-80">{children}</main>
+      <body className="bg-gray-50">
+        {/* Container with min-width 1440px centered */}
+        <div className="min-w-[1440px] mx-auto min-h-screen bg-white shadow-xl flex overflow-x-hidden">
+          <Sidebar className="min-w-[280px] h-screen sticky top-0" />
+          <main className="flex-1 bg-gray-50">
+            <div className="p-6">
+              {children}
+            </div>
+          </main>
+        </div>
       </body>
     </html>
   );
