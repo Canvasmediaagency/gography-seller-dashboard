@@ -357,26 +357,26 @@ function SalesReportPage() {
                   </td>
 
                   {/* Seats */}
-                    <td className="p-4">
+                  <td className="p-4">
                     <div className="flex items-center gap-2">
                       <div className="flex flex-col gap-1 max-w-[120px]">
-                      {Array.from({ length: Math.ceil(trip.totalSeats / 5) }).map((_, rowIdx) => (
-                        <div key={rowIdx} className="flex gap-1">
-                        {Array.from({ length: Math.min(5, trip.totalSeats - rowIdx * 5) }).map((_, colIdx) => {
-                          const seatIdx = rowIdx * 5 + colIdx
-                          return (
-                          <div
-                            key={seatIdx}
-                            className={`w-3 h-3 rounded-[3px] ${seatIdx < trip.seats ? 'bg-gray-800' : 'bg-gray-300'}`}
-                          />
-                          )
-                        })}
-                        </div>
-                      ))}
+                        {Array.from({ length: Math.ceil(trip.totalSeats / 5) }).map((_, rowIdx) => (
+                          <div key={rowIdx} className="flex gap-1">
+                            {Array.from({ length: Math.min(5, trip.totalSeats - rowIdx * 5) }).map((_, colIdx) => {
+                              const seatIdx = rowIdx * 5 + colIdx
+                              return (
+                                <div
+                                  key={seatIdx}
+                                  className={`w-3 h-3 rounded-[3px] ${seatIdx < trip.seats ? 'bg-gray-800' : 'bg-gray-300'}`}
+                                />
+                              )
+                            })}
+                          </div>
+                        ))}
                       </div>
                     </div>
-                    </td>
-                    
+                  </td>
+
 
                   {/* Price */}
                   <td className="p-4">

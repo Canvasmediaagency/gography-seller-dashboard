@@ -43,7 +43,7 @@ function Sidebar({ className }: SidebarProps) {
           <SidebarButton
             icon={<LuPlaneTakeoff />}
             label="Trip Information"
-            href="/special-data"
+            href="/Trips"
             isActive={isSpecialData}
           />
 
