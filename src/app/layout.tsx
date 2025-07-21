@@ -17,9 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gray-50">
         {/* Container with min-width 1440px centered */}
-        <div className="min-w-[1440px] mx-auto min-h-screen bg-white shadow-xl flex overflow-x-hidden">
+        <div className="min-w-[1440px] mx-auto min-h-screen bg-white shadow-xl flex">
           <Sidebar className="min-w-[280px] h-screen sticky top-0" />
-          <main className="flex-1 bg-gray-50">
+          <main className="flex-1 bg-gray-50 overflow-x-auto">
             <div className="p-6">
               {children}
             </div>

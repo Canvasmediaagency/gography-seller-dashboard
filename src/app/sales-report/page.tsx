@@ -45,6 +45,53 @@ function SalesReportPage() {
     { month: 'May', value: 9200, fullMonth: 'May' }
   ]
 
+  const tripsData = [
+    {
+      id: 1,
+      flag: '🇮🇸',
+      name: '2025 Aurora Trails',
+      location: 'in Iceland',
+      date: '19 - 28 April 2025',
+      seats: 4,
+      totalSeats: 4,
+      price: '142,900.-',
+      commission: '14,290.-'
+    },
+    {
+      id: 2,
+      flag: '🇮🇹',
+      name: '2025 Summer in Dolomites',
+      location: 'in Dolomites',
+      date: '10 - 17 September 2025',
+      seats: 5,
+      totalSeats: 5,
+      price: '95,000.-',
+      commission: '9,500.-'
+    },
+    {
+      id: 3,
+      flag: '🇨🇦',
+      name: '2025 CANADA',
+      location: 'AUTUMN',
+      date: '20 - 28 September 2025',
+      seats: 3,
+      totalSeats: 4,
+      price: '125,900.-',
+      commission: '12,590.-'
+    },
+    {
+      id: 4,
+      flag: '🇯🇵',
+      name: '2025 Japan Cherry',
+      location: 'in Tokyo',
+      date: '15 - 22 April 2025',
+      seats: 2,
+      totalSeats: 6,
+      price: '89,000.-',
+      commission: '8,900.-'
+    }
+  ]
+
   return (
     <div className='flex flex-col'>
       {/* Header */}
@@ -255,6 +302,98 @@ function SalesReportPage() {
           </div>
         </div>
       </div>
+
+      {/* Trip selled List */}
+      <div className='mx-4 mb-6 rounded-2xl shadow-lg'>
+        <div className="flex justify-between items-center p-4 ">
+          <div className='flex flex-row items-center'>
+            <h3 className='font-semibold text-xl text-gray-900'>Total Trips Sold</h3>
+            <span className='px-4 py-1 text-white bg-gray-900 mx-4 rounded-full text-sm'>
+              {tripsData.length} Trips
+            </span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <select className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="6m">6 months</option>
+              <option value="1m">1 months</option>
+              <option value="3m">3 months</option>
+              <option value="1y">1 year</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className=" overflow-hidden">
+          <table className="w-full">
+            {/* Table Header */}
+            <thead className="">
+              <tr>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Trip Name</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
+              </tr>
+            </thead>
+
+            {/* Table Body */}
+            <tbody className="">
+              {tripsData.map((trip) => (
+                <tr key={trip.id} className="">
+                  {/* Trip Name */}
+                  <td className="p-4">
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg">{trip.flag}</span>
+                      <div>
+                        <p className=" text-gray-900">{trip.name}</p>
+                        <p className="text-sm text-gray-600">{trip.location}</p>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Date */}
+                  <td className="p-4">
+                    <p className="text-sm text-gray-900">{trip.date}</p>
+                  </td>
+
+                  {/* Seats */}
+                    <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex flex-col gap-1 max-w-[120px]">
+                      {Array.from({ length: Math.ceil(trip.totalSeats / 5) }).map((_, rowIdx) => (
+                        <div key={rowIdx} className="flex gap-1">
+                        {Array.from({ length: Math.min(5, trip.totalSeats - rowIdx * 5) }).map((_, colIdx) => {
+                          const seatIdx = rowIdx * 5 + colIdx
+                          return (
+                          <div
+                            key={seatIdx}
+                            className={`w-3 h-3 rounded-[3px] ${seatIdx < trip.seats ? 'bg-gray-800' : 'bg-gray-300'}`}
+                          />
+                          )
+                        })}
+                        </div>
+                      ))}
+                      </div>
+                    </div>
+                    </td>
+                    
+
+                  {/* Price */}
+                  <td className="p-4">
+                    <p className="font-semibold text-gray-900">{trip.price}</p>
+                  </td>
+
+                  {/* Commission */}
+                  <td className="p-4">
+                    <p className="font-bold text-gray-900">{trip.commission}</p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
 
     </div>
   )
