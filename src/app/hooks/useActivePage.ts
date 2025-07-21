@@ -7,7 +7,7 @@ export function useActivePage() {
   
   return {
     isSalesReport: pathname === '/sales-report',
-    isSpecialData: pathname === '/special-data', 
+    isSpecialData: pathname === '/Trips', 
     isSellReport: pathname === '/sell-report',
     isHome: pathname === '/'
   }
