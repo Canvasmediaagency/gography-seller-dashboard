@@ -106,7 +106,7 @@ function SalesReportPage() {
             />
           </div>
           <p className='text-xl text-gray-900 font-bold'>Mr.John Doe</p>
-          <div className='border-gray-300 border rounded-full p-1'>
+          <div className='border-gray-300 border rounded-full bg-white p-1'>
             <p className="text-[12px] text-gray-800 mx-2">Sale ID: #12568</p>
           </div>
         </div>
@@ -114,20 +114,20 @@ function SalesReportPage() {
 
       {/* Report Content */}
       <div className='flex flex-row'>
-        <div className='flex flex-row gap-6 justify-between w-full items-center px-4 py-2  rounded-3xl mt-2'>
-          <div className='flex flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm  items-start gap-2'>
+        <div className='flex flex-row gap-6 justify-between w-full items-center px-4 py-2  rounded-3xl mt-2 '>
+          <div className='flex bg-white flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm  items-start gap-2'>
             <p>Total sales</p>
             <p className='text-3xl font-bold text-gray-900'>459,500.-</p>
           </div>
-          <div className='flex flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
+          <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Trips Sold</p>
             <p className='text-3xl font-bold text-gray-900'>4 Trips</p>
           </div>
-          <div className='flex flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
+          <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Total Commission</p>
             <p className='text-3xl font-bold text-gray-900'>45,950.-</p>
           </div>
-          <div className='flex flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
+          <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Ranking</p>
             <p className='text-3xl font-bold text-gray-900'>1st</p>
           </div>
@@ -137,7 +137,7 @@ function SalesReportPage() {
       {/* Chart */}
       <div className='flex flex-row items-stretch justify-between m-4 mt-2 gap-6'>
         <div className='w-1/2'>
-          <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full'>
+          <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-2'>
               <h3 className='text-xl font-bold text-gray-900'>Total Sales Summary</h3>
               <select className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -186,7 +186,7 @@ function SalesReportPage() {
         </div>
 
         <div className='w-1/2'>
-          <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full'>
+          <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-4'>
               <h3 className='text-xl font-bold text-gray-900'>Commission Target</h3>
               {!isEditing ? (
@@ -304,7 +304,7 @@ function SalesReportPage() {
       </div>
 
       {/* Trip selled List */}
-      <div className='mx-4 mb-6 rounded-2xl shadow-lg'>
+      <div className='mx-4 mb-6 rounded-2xl shadow-lg bg-white border-1'>
         <div className="flex justify-between items-center p-4 ">
           <div className='flex flex-row items-center'>
             <h3 className='font-semibold text-xl text-gray-900'>Total Trips Sold</h3>
@@ -331,8 +331,8 @@ function SalesReportPage() {
                 <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Trip Name</th>
                 <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
                 <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
-                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
-                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
+                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
+                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
               </tr>
             </thead>
 
@@ -380,12 +380,12 @@ function SalesReportPage() {
 
                   {/* Price */}
                   <td className="p-4">
-                    <p className="font-semibold text-gray-900">{trip.price}</p>
+                    <p className="font-semibold text-gray-900 text-right">{trip.price}</p>
                   </td>
 
                   {/* Commission */}
                   <td className="p-4">
-                    <p className="font-bold text-gray-900">{trip.commission}</p>
+                    <p className="font-bold text-gray-900 text-right">{trip.commission}</p>
                   </td>
                 </tr>
               ))}
