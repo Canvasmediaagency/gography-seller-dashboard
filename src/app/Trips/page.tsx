@@ -5,6 +5,7 @@ import { LuClock4 } from "react-icons/lu";
 import { ImLink } from "react-icons/im";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { PiListDashesBold } from "react-icons/pi";
+import { FaUser } from "react-icons/fa";
 
 interface Trip {
   id: string
@@ -251,7 +252,7 @@ function TripsPage() {
                 className={`px-4 py-2 rounded-full text-sm transition-colors ${
                   activeFilter === 'all' 
                     ? 'bg-black text-white' 
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 All trips ({tripCounts.all})
@@ -261,7 +262,7 @@ function TripsPage() {
                 className={`px-4 py-2 rounded-full text-sm transition-colors ${
                   activeFilter === 'sold' 
                     ? 'bg-black text-white' 
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 Sold trips ({tripCounts.sold})
@@ -271,7 +272,7 @@ function TripsPage() {
                 className={`px-4 py-2 rounded-full text-sm transition-colors ${
                   activeFilter === 'unsold' 
                     ? 'bg-black text-white' 
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 Unsold trips ({tripCounts.unsold})
@@ -319,9 +320,9 @@ function TripsPage() {
       <div className='mx-4 mb-6'>
         {viewMode === 'list' ? (
           /* Table View */
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
             <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-white-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-sm  text-gray-700">Trip Name</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Travel Dates</th>
@@ -332,7 +333,7 @@ function TripsPage() {
                   <th className="px-4 py-3 text-center text-sm  text-gray-700"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="">
                 {sortedTrips.map((trip) => {
                   const salesStatus = getSalesStatus(trip.id)
                   // Use the consistent mock data
@@ -383,14 +384,14 @@ function TripsPage() {
                       {/* Total Seats (with progress bar like in image) */}
                       <td className="px-4 py-4 text-center">
                         <div className="flex flex-col items-center">
-                          <div className="text-sm">
+                          <div className="text-sm flex items-center justify-center w-full">
                             <span className={`${isLowSeats ? 'text-red-600' : 'text-gray-900'} font-semibold`}>
                               {remainingSeats}
                             </span>
-                            /{trip.seat_count} ที่นั่ง
+                            /{trip.seat_count} <FaUser className='inline text-gray-400 ml-1' />
                           </div>
                           {/* Progress bar */}
-                          <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
+                          <div className="w-20 h-2 bg-gray-300 rounded-full mt-1">
                             <div 
                               className={`h-2 rounded-full transition-all  bg-gray-900`}
                               style={{
@@ -440,14 +441,14 @@ function TripsPage() {
 
             // Grid View Layout (existing)
             return (
-              <div key={trip.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div key={trip.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
                 {/* Trip Image with Price Overlay */}
-                <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
+                <div className="relative h-30 m-4 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
                   {trip.cover_img ? (
                     <img
                       src={trip.cover_img}
                       alt={trip.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-lg"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-6xl">
@@ -456,19 +457,19 @@ function TripsPage() {
                   )}
 
                   {/* Price Badge */}
-                  <div className="absolute bottom-2 right-2 bg-gray-500/50 rounded-xl text-white px-3 py-1 ">
+                  <div className="absolute bottom-2 right-2 bg-gray-900/20 rounded-xl text-white px-3 py-1 ">
                     <div className="text-sm  font-bold text-right">Per person</div>
                     <div className="text-3xl font-bold text-right">{formatPrice(trip.price_per_person)}</div>
                   </div>
                 </div>
 
                 {/* Trip Info */}
-                <div className="p-4">
+                <div className="px-4 pt-0 py-4 flex flex-col h-full">
                   {/* Trip Title */}
-                  <h3 className="font-bold text-gray-900 text-lg mb-4">{trip.name}</h3>
+                  <h3 className="font-bold text-gray-900 text-md mb-4 h-12 line-clamp-2 leading-6">{trip.name}</h3>
 
                   {/* Trip Details */}
-                  <div className="space-y-2 text-sm text-gray-600 mb-4 text-nowrap">
+                  <div className="space-y-2 text-sm text-gray-600 mb-4 text-nowrap flex-grow">
                     <div className="flex items-center gap-2">
                       {<LuPlaneTakeoff className='text-xl' />}
                       <span>Travel Dates</span>
@@ -488,20 +489,25 @@ function TripsPage() {
                   </div>
 
                   {/* Stats Row */}
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="text-center">
-                      <div className="text-lg font-bold text-gray-900">{totalRemainingSeats} seats</div>
+                  <div className="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg mt-auto">
+                    <div className="flex-1 text-center">
+                      <div className="text-lg font-bold text-gray-900 flex items-center justify-center">
+                        {totalRemainingSeats}
+                        <span className="text-sm ml-2"><FaUser className='inline text-gray-400' /></span>
+                      </div>
                       <div className="text-xs text-gray-500">Available</div>
                     </div>
-                    <div className="text-center">
+                    <div className="h-8 w-px bg-gray-300 mx-4" />
+                    <div className="flex-1 text-center">
                       <div className="text-lg font-bold text-gray-900">{salesStatus.soldSeats}</div>
                       <div className="text-xs text-gray-500">My Sales</div>
                     </div>
-                    <div className="text-center">
+                    <div className="h-8 w-px bg-gray-300 mx-4" />
+                    <div className="flex-1 text-center">
                       <div className="text-lg font-bold text-gray-900">
                         {formatPrice(salesStatus.soldSeats * getActualCommissionAmount(trip))}
                       </div>
-                      <div className="text-xs text-gray-500">My Commission</div>
+                      <div className="text-xs text-gray-500">Commission</div>
                     </div>
                   </div>
 
