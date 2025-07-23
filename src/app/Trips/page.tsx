@@ -6,6 +6,7 @@ import { ImLink } from "react-icons/im";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { PiListDashesBold } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
+import { toast, Toaster } from 'sonner';
 
 interface Trip {
   id: string
@@ -98,6 +99,33 @@ function TripsPage() {
     if (flagIcon) return flagIcon
     // Default flags based on common destinations
     return '🌍'
+  }
+
+  // Copy share link to clipboard
+  const copyShareLink = async (trip: Trip) => {
+    try {
+      if (!trip.share_link) {
+        toast.error('No share link available for this trip')
+        return
+      }
+      
+      await navigator.clipboard.writeText(trip.share_link)
+      toast.success('Share link copied to clipboard!')
+    } catch (err) {
+      console.error('Failed to copy link:', err)
+      // Fallback for older browsers
+      if (trip.share_link) {
+        const textArea = document.createElement('textarea')
+        textArea.value = trip.share_link
+        document.body.appendChild(textArea)
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        toast.success('Share link copied to clipboard!')
+      } else {
+        toast.error('Failed to copy link')
+      }
+    }
   }
 
   // Hardcode seller ID for now (later from session/login)
@@ -419,7 +447,8 @@ function TripsPage() {
                       {/* Share Button */}
                       <td className="px-4 py-4 text-center">
                         <button 
-                          className="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm bg-black text-white hover:bg-gray-800"
+                          onClick={() => copyShareLink(trip)}
+                          className="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm bg-black text-white hover:bg-gray-800 cursor-pointer"
                         >
                           <ImLink className='text-xs' />
                           <span>Share</span>
@@ -514,7 +543,8 @@ function TripsPage() {
 
                   {/* Share Button */}
                   <button 
-                    className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800"
+                    onClick={() => copyShareLink(trip)}
+                    className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 cursor-pointer"
                   >
                     <ImLink className='text-xl' />
                     <span>Share Trip</span>
@@ -541,6 +571,9 @@ function TripsPage() {
           </div>
         )}
       </div>
+      
+      {/* Toaster for notifications */}
+      <Toaster />
     </div>
   )
 }
