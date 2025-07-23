@@ -436,8 +436,9 @@ function TripsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedTrips.map((trip) => {
             const salesStatus = getSalesStatus(trip.id)
-            // Total seats remaining in the trip (not specific to this seller)
-            const totalRemainingSeats = Math.floor(Math.random() * trip.seat_count)
+            // Use consistent mock data for remaining seats
+            const totalSoldSeats = salesStatus.totalSoldSeats
+            const remainingSeats = trip.seat_count - totalSoldSeats
 
             // Grid View Layout (existing)
             return (
@@ -492,7 +493,7 @@ function TripsPage() {
                   <div className="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg mt-auto">
                     <div className="flex-1 text-center">
                       <div className="text-lg font-bold text-gray-900 flex items-center justify-center">
-                        {totalRemainingSeats}
+                        {remainingSeats}
                         <span className="text-sm ml-2"><FaUser className='inline text-gray-400' /></span>
                       </div>
                       <div className="text-xs text-gray-500">Available</div>
@@ -505,7 +506,7 @@ function TripsPage() {
                     <div className="h-8 w-px bg-gray-300 mx-4" />
                     <div className="flex-1 text-center">
                       <div className="text-lg font-bold text-gray-900">
-                        {formatPrice(salesStatus.soldSeats * getActualCommissionAmount(trip))}
+                        {formatPrice(getActualCommissionAmount(trip))}
                       </div>
                       <div className="text-xs text-gray-500">Commission</div>
                     </div>
