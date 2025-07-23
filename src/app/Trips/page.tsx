@@ -26,6 +26,7 @@ function TripsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [activeFilter, setActiveFilter] = useState<'all' | 'sold' | 'unsold'>('all')
+  const [sortBy, setSortBy] = useState<'default' | 'commission' | 'travel_date'>('default')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
   useEffect(() => {
@@ -81,6 +82,14 @@ function TripsPage() {
       return `${trip.commission_amount}%`
     } else {
       return formatPrice(trip.commission_amount)
+    }
+  }
+
+  const getActualCommissionAmount = (trip: Trip) => {
+    if (trip.commission_type === 'percent') {
+      return (trip.commission_amount / 100) * trip.price_per_person
+    } else {
+      return trip.commission_amount
     }
   }
 
@@ -148,6 +157,33 @@ function TripsPage() {
     return true
   })
 
+  // Sort trips based on sortBy value
+  const sortedTrips = [...filteredTrips].sort((a, b) => {
+    if (sortBy === 'commission') {
+      // Calculate actual commission amounts for comparison
+      const getActualCommission = (trip: Trip) => {
+        if (trip.commission_type === 'percent') {
+          return (trip.commission_amount / 100) * trip.price_per_person
+        } else {
+          return trip.commission_amount
+        }
+      }
+      
+      const commissionA = getActualCommission(a)
+      const commissionB = getActualCommission(b)
+      
+      // Sort by commission amount (high to low)
+      return commissionB - commissionA
+    } else if (sortBy === 'travel_date') {
+      // Sort by travel start date (nearest first)
+      const dateA = new Date(a.travel_start_date)
+      const dateB = new Date(b.travel_start_date)
+      return dateA.getTime() - dateB.getTime()
+    }
+    // Default sorting (no change)
+    return 0
+  })
+
   // Get counts for each filter
   const tripCounts = {
     all: trips.length,
@@ -191,65 +227,89 @@ function TripsPage() {
     <div className='flex flex-col'>
       {/* Header */}
       <div className='mx-4'>
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">All Trips Information</h1>
-
+        <div className="flex  items-center mb-6 gap-5">
+        <h1 className="text-3xl flex font-bold text-gray-900">All Trips Information</h1>
+        <div className="flex">
+                <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'default' | 'commission' | 'travel_date')}
+                className="px-2 pl-6 py-2 border border-gray-300 rounded-full text-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
+                >
+                <option value="default">Sort by: Default</option>
+                <option value="commission">Sort by: Commission (High-Low)</option>
+                <option value="travel_date">Sort by: Travel Date (Nearest)</option>
+                </select>
+            </div>
+        </div>
         {/* Filter Buttons and View Toggle */}
         <div className="flex justify-between items-center mb-6">
-          {/* Filter Buttons */}
-          <div className="flex gap-3">
-            <button 
-              onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                activeFilter === 'all' 
-                  ? 'bg-black text-white' 
-                  : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              All trips ({tripCounts.all})
-            </button>
-            <button 
-              onClick={() => setActiveFilter('sold')}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                activeFilter === 'sold' 
-                  ? 'bg-black text-white' 
-                  : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Sold trips ({tripCounts.sold})
-            </button>
-            <button 
-              onClick={() => setActiveFilter('unsold')}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                activeFilter === 'unsold' 
-                  ? 'bg-black text-white' 
-                  : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Unsold trips ({tripCounts.unsold})
-            </button>
+          <div className="flex items-center gap-6">
+            {/* Filter Buttons */}
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setActiveFilter('all')}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                  activeFilter === 'all' 
+                    ? 'bg-black text-white' 
+                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                All trips ({tripCounts.all})
+              </button>
+              <button 
+                onClick={() => setActiveFilter('sold')}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                  activeFilter === 'sold' 
+                    ? 'bg-black text-white' 
+                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Sold trips ({tripCounts.sold})
+              </button>
+              <button 
+                onClick={() => setActiveFilter('unsold')}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                  activeFilter === 'unsold' 
+                    ? 'bg-black text-white' 
+                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Unsold trips ({tripCounts.unsold})
+              </button>
+            </div>
+
+            {/* Sort Dropdown */}
+            
           </div>
 
           {/* View Toggle Buttons */}
-          <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+          <div className="relative bg-black rounded-full p-0.5 flex">
+            {/* Background slider */}
+            <div 
+              className={`absolute top-0.5 bottom-0.5 bg-white rounded-full transition-all duration-300 ease-in-out ${
+                viewMode === 'grid' ? 'left-0.5 right-[50%]' : 'left-[50%] right-0.5'
+              }`}
+            />
+            
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 transition-colors ${
+              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
                 viewMode === 'grid'
-                  ? 'bg-black text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'text-gray-900'
+                  : 'text-gray-400 hover:text-gray-300'
               }`}
             >
-              <HiOutlineSquares2X2 className="w-5 h-5" />
+              <HiOutlineSquares2X2 className="w-5 h-5 font-bold" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 transition-colors ${
+              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
                 viewMode === 'list'
-                  ? 'bg-black text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'text-gray-900'
+                  : 'text-gray-400 hover:text-gray-300'
               }`}
             >
-              <PiListDashesBold className="w-5 h-5" />
+              <PiListDashesBold className="w-5 h-5 font-bold" />
             </button>
           </div>
         </div>
@@ -273,7 +333,7 @@ function TripsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredTrips.map((trip) => {
+                {sortedTrips.map((trip) => {
                   const salesStatus = getSalesStatus(trip.id)
                   // Use the consistent mock data
                   const totalSoldSeats = salesStatus.totalSoldSeats
@@ -351,22 +411,17 @@ function TripsPage() {
                       {/* Commission */}
                       <td className="px-4 py-4 text-center">
                         <div className="text-lg  text-gray-900">
-                          {formatPrice(trip.commission_amount)}
+                          {formatPrice(getActualCommissionAmount(trip))}
                         </div>
                       </td>
 
                       {/* Share Button */}
                       <td className="px-4 py-4 text-center">
                         <button 
-                          disabled={remainingSeats === 0}
-                          className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm ${
-                            remainingSeats === 0
-                              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                              : 'bg-black text-white hover:bg-gray-800'
-                          }`}
+                          className="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm bg-black text-white hover:bg-gray-800"
                         >
                           <ImLink className='text-xs' />
-                          <span>แชร์</span>
+                          <span>Share</span>
                         </button>
                       </td>
                     </tr>
@@ -378,7 +433,7 @@ function TripsPage() {
         ) : (
           /* Grid View */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTrips.map((trip) => {
+          {sortedTrips.map((trip) => {
             const salesStatus = getSalesStatus(trip.id)
             // Total seats remaining in the trip (not specific to this seller)
             const totalRemainingSeats = Math.floor(Math.random() * trip.seat_count)
@@ -401,8 +456,8 @@ function TripsPage() {
                   )}
 
                   {/* Price Badge */}
-                  <div className="absolute bottom-1 right-1 text-white px-3 py-1 rounded">
-                    <div className="text-sm text-white font-bold text-right">Per person</div>
+                  <div className="absolute bottom-2 right-2 bg-gray-500/50 rounded-xl text-white px-3 py-1 ">
+                    <div className="text-sm  font-bold text-right">Per person</div>
                     <div className="text-3xl font-bold text-right">{formatPrice(trip.price_per_person)}</div>
                   </div>
                 </div>
@@ -444,7 +499,7 @@ function TripsPage() {
                     </div>
                     <div className="text-center">
                       <div className="text-lg font-bold text-gray-900">
-                        {formatPrice(salesStatus.soldSeats * trip.commission_amount)}
+                        {formatPrice(salesStatus.soldSeats * getActualCommissionAmount(trip))}
                       </div>
                       <div className="text-xs text-gray-500">My Commission</div>
                     </div>
@@ -452,15 +507,10 @@ function TripsPage() {
 
                   {/* Share Button */}
                   <button 
-                    disabled={totalRemainingSeats === 0}
-                    className={`w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                      totalRemainingSeats === 0
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : 'bg-black text-white hover:bg-gray-800'
-                    }`}
+                    className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800"
                   >
                     <ImLink className='text-xl' />
-                    <span>{totalRemainingSeats === 0 ? 'Sold Out' : 'Share Trip'}</span>
+                    <span>Share Trip</span>
                   </button>
                 </div>
               </div>
@@ -469,7 +519,7 @@ function TripsPage() {
         </div>
         )}
 
-        {filteredTrips.length === 0 && (
+        {sortedTrips.length === 0 && (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
             <div className="text-6xl mb-4">✈️</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
