@@ -108,7 +108,7 @@ function TripsPage() {
         toast.error('No share link available for this trip')
         return
       }
-      
+
       await navigator.clipboard.writeText(trip.share_link)
       toast.success('Share link copied to clipboard!')
     } catch (err) {
@@ -134,14 +134,14 @@ function TripsPage() {
   // Mock sales data - สร้างครั้งเดียวเมื่อ trips data โหลดเสร็จ
   const mockSalesData = useMemo(() => {
     if (trips.length === 0) return {}
-    
+
     const salesData: { [tripId: string]: { soldSeats: number, hasSold: boolean, totalSoldSeats: number } } = {}
-    
+
     trips.forEach((trip, index) => {
       // Random 70% chance ที่ seller คนนี้เคยขายทริปนี้
       const hasSold = Math.random() > 0.3
       const soldSeats = hasSold ? Math.floor(Math.random() * Math.min(5, trip.seat_count)) + 1 : 0
-      
+
       // Mock total seats sold by all sellers (more realistic data)
       let totalSoldSeats: number
       if (index % 4 === 0) {
@@ -157,14 +157,14 @@ function TripsPage() {
         // Some trips are almost sold out
         totalSoldSeats = Math.floor(trip.seat_count * 0.92) // 92% sold (8% remaining = red warning)
       }
-      
+
       salesData[trip.id] = {
         soldSeats,
         hasSold,
         totalSoldSeats
       }
     })
-    
+
     return salesData
   }, [trips]) // จะสร้างใหม่เฉพาะเมื่อ trips เปลี่ยน
 
@@ -176,7 +176,7 @@ function TripsPage() {
   // Filter trips based on active filter
   const filteredTrips = trips.filter(trip => {
     if (activeFilter === 'all') return true
-    
+
     const salesStatus = getSalesStatus(trip.id)
     if (activeFilter === 'sold') {
       return salesStatus.hasSold
@@ -197,10 +197,10 @@ function TripsPage() {
           return trip.commission_amount
         }
       }
-      
+
       const commissionA = getActualCommission(a)
       const commissionB = getActualCommission(b)
-      
+
       // Sort by commission amount (high to low)
       return commissionB - commissionA
     } else if (sortBy === 'travel_date') {
@@ -257,86 +257,80 @@ function TripsPage() {
       {/* Header */}
       <div className='mx-4'>
         <div className="flex  items-center mb-6 gap-5">
-        <h1 className="text-3xl flex font-bold text-gray-900">All Trips Information</h1>
-        <div className="flex">
-                <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'default' | 'commission' | 'travel_date')}
-                className="px-2 pl-6 py-2 border border-gray-300 rounded-full text-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
-                >
-                <option value="default">Sort by: Default</option>
-                <option value="commission">Sort by: Commission (High-Low)</option>
-                <option value="travel_date">Sort by: Travel Date (Nearest)</option>
-                </select>
-            </div>
+          <h1 className="text-3xl flex font-bold text-gray-900">All Trips Information</h1>
+          <div className="flex">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'default' | 'commission' | 'travel_date')}
+              className="px-2 pl-6 py-2 border border-gray-300 rounded-full text-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
+            >
+              <option value="default">Sort by: Default</option>
+              <option value="commission">Sort by: Commission (High-Low)</option>
+              <option value="travel_date">Sort by: Travel Date (Nearest)</option>
+            </select>
+          </div>
         </div>
         {/* Filter Buttons and View Toggle */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-6">
             {/* Filter Buttons */}
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={() => setActiveFilter('all')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                  activeFilter === 'all' 
-                    ? 'bg-black text-white' 
-                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'all'
+                  ? 'bg-black text-white'
+                  : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                  }`}
               >
                 All trips ({tripCounts.all})
               </button>
-              <button 
+              <button
                 onClick={() => setActiveFilter('sold')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                  activeFilter === 'sold' 
-                    ? 'bg-black text-white' 
-                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'sold'
+                  ? 'bg-black text-white'
+                  : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                  }`}
               >
                 Sold trips ({tripCounts.sold})
               </button>
-              <button 
+              <button
                 onClick={() => setActiveFilter('unsold')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                  activeFilter === 'unsold' 
-                    ? 'bg-black text-white' 
-                    : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'unsold'
+                  ? 'bg-black text-white'
+                  : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                  }`}
               >
                 Unsold trips ({tripCounts.unsold})
               </button>
             </div>
 
             {/* Sort Dropdown */}
-            
+
           </div>
 
           {/* View Toggle Buttons */}
           <div className="relative bg-black rounded-full p-0.5 flex">
             {/* Background slider */}
-            <div 
-              className={`absolute top-0.5 bottom-0.5 bg-white rounded-full transition-all duration-300 ease-in-out ${
-                viewMode === 'grid' ? 'left-0.5 right-[50%]' : 'left-[50%] right-0.5'
-              }`}
+            <div
+              className={`absolute top-0.5 bottom-0.5 bg-white rounded-full transition-all duration-300 ease-in-out ${viewMode === 'grid' ? 'left-0.5 right-[50%]' : 'left-[50%] right-0.5'
+                }`}
             />
-            
+
             <button
               onClick={() => setViewMode('grid')}
-              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
-                viewMode === 'grid'
-                  ? 'text-gray-900'
-                  : 'text-gray-400 hover:text-gray-300'
-              }`}
+              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${viewMode === 'grid'
+                ? 'text-gray-900'
+                : 'text-gray-400 hover:text-gray-300'
+                }`}
             >
               <HiOutlineSquares2X2 className="w-5 h-5 font-bold" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
-                viewMode === 'list'
-                  ? 'text-gray-900'
-                  : 'text-gray-400 hover:text-gray-300'
-              }`}
+              className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${viewMode === 'list'
+                ? 'text-gray-900'
+                : 'text-gray-400 hover:text-gray-300'
+                }`}
             >
               <PiListDashesBold className="w-5 h-5 font-bold" />
             </button>
@@ -350,7 +344,7 @@ function TripsPage() {
           /* Table View */
           <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
             <table className="w-full">
-                <thead className="bg-white-50">
+              <thead className="bg-white-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-sm  text-gray-700">Trip Name</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Travel Dates</th>
@@ -369,7 +363,7 @@ function TripsPage() {
                   const remainingSeats = trip.seat_count - totalSoldSeats
                   const remainingPercent = (remainingSeats / trip.seat_count) * 100
                   const isLowSeats = remainingPercent < 20
-                  
+
                   return (
                     <tr key={trip.id} className="hover:bg-gray-50 transition-colors">
                       {/* Trip Name with Image */}
@@ -420,7 +414,7 @@ function TripsPage() {
                           </div>
                           {/* Progress bar */}
                           <div className="w-20 h-2 bg-gray-300 rounded-full mt-1">
-                            <div 
+                            <div
                               className={`h-2 rounded-full transition-all  bg-gray-900`}
                               style={{
                                 width: `${Math.min(((trip.seat_count - remainingSeats) / trip.seat_count) * 100, 100)}%`
@@ -446,7 +440,7 @@ function TripsPage() {
 
                       {/* Share Button */}
                       <td className="px-4 py-4 text-center">
-                        <button 
+                        <button
                           onClick={() => copyShareLink(trip)}
                           className="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm bg-black text-white hover:bg-gray-800 cursor-pointer"
                         >
@@ -463,97 +457,97 @@ function TripsPage() {
         ) : (
           /* Grid View */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedTrips.map((trip) => {
-            const salesStatus = getSalesStatus(trip.id)
-            // Use consistent mock data for remaining seats
-            const totalSoldSeats = salesStatus.totalSoldSeats
-            const remainingSeats = trip.seat_count - totalSoldSeats
+            {sortedTrips.map((trip) => {
+              const salesStatus = getSalesStatus(trip.id)
+              // Use consistent mock data for remaining seats
+              const totalSoldSeats = salesStatus.totalSoldSeats
+              const remainingSeats = trip.seat_count - totalSoldSeats
 
-            // Grid View Layout (existing)
-            return (
-              <div key={trip.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
-                {/* Trip Image with Price Overlay */}
-                <div className="relative h-30 m-4 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
-                  {trip.cover_img ? (
-                    <img
-                      src={trip.cover_img}
-                      alt={trip.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-6xl">
-                      {getFlag(trip.flag_icon)}
+              // Grid View Layout (existing)
+              return (
+                <div key={trip.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
+                  {/* Trip Image with Price Overlay */}
+                  <div className="relative h-30 m-4 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
+                    {trip.cover_img ? (
+                      <img
+                        src={trip.cover_img}
+                        alt={trip.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-6xl">
+                        {getFlag(trip.flag_icon)}
+                      </div>
+                    )}
+
+                    {/* Price Badge */}
+                    <div className="absolute bottom-2 right-2 bg-gray-900/20 rounded-xl text-white px-3 py-1 ">
+                      <div className="text-sm  font-bold text-right">Per person</div>
+                      <div className="text-3xl font-bold text-right">{formatPrice(trip.price_per_person)}</div>
                     </div>
-                  )}
+                  </div>
+                    
+                  {/* Trip Info */}
+                  <div className="px-4 pt-0 py-4 flex flex-col h-full">
+                    {/* Trip Title */}
+                    <h3 className="font-bold text-gray-900 text-md mb-4 h-12 line-clamp-2 leading-6">{trip.name}</h3>
 
-                  {/* Price Badge */}
-                  <div className="absolute bottom-2 right-2 bg-gray-900/20 rounded-xl text-white px-3 py-1 ">
-                    <div className="text-sm  font-bold text-right">Per person</div>
-                    <div className="text-3xl font-bold text-right">{formatPrice(trip.price_per_person)}</div>
+                    {/* Trip Details */}
+                    <div className="space-y-2 text-sm text-gray-600 mb-4 text-nowrap flex-grow">
+                      <div className="flex items-center gap-2">
+                        {<LuPlaneTakeoff className='text-xl' />}
+                        <span>Travel Dates</span>
+                        <span className="flex-1" />
+                        <span className="text-gray-900 font-semibold">
+                          {formatDateRange(trip.travel_start_date, trip.travel_end_date)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <LuClock4 className='text-xl' />
+                        <span>Deadline</span>
+                        <span className="flex-1" />
+                        <span className="text-gray-900 font-semibold">
+                          {formatDate(trip.end_date)} / {trip.seat_count} seats
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg mt-auto">
+                      <div className="flex-1 text-center">
+                        <div className="text-lg font-bold text-gray-900 flex items-center justify-center">
+                          {remainingSeats}
+                          <span className="text-sm ml-2"><FaUser className='inline text-gray-400' /></span>
+                        </div>
+                        <div className="text-xs text-gray-500">Available</div>
+                      </div>
+                      <div className="h-8 w-px bg-gray-300 mx-4" />
+                      <div className="flex-1 text-center">
+                        <div className="text-lg font-bold text-gray-900">{salesStatus.soldSeats}</div>
+                        <div className="text-xs text-gray-500">My Sales</div>
+                      </div>
+                      <div className="h-8 w-px bg-gray-300 mx-4" />
+                      <div className="flex-1 text-center">
+                        <div className="text-lg font-bold text-gray-900">
+                          {formatPrice(getActualCommissionAmount(trip))}
+                        </div>
+                        <div className="text-xs text-gray-500">Commission</div>
+                      </div>
+                    </div>
+
+                    {/* Share Button */}
+                    <button
+                      onClick={() => copyShareLink(trip)}
+                      className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 cursor-pointer"
+                    >
+                      <ImLink className='text-xl' />
+                      <span>Share Trip</span>
+                    </button>
                   </div>
                 </div>
-
-                {/* Trip Info */}
-                <div className="px-4 pt-0 py-4 flex flex-col h-full">
-                  {/* Trip Title */}
-                  <h3 className="font-bold text-gray-900 text-md mb-4 h-12 line-clamp-2 leading-6">{trip.name}</h3>
-
-                  {/* Trip Details */}
-                  <div className="space-y-2 text-sm text-gray-600 mb-4 text-nowrap flex-grow">
-                    <div className="flex items-center gap-2">
-                      {<LuPlaneTakeoff className='text-xl' />}
-                      <span>Travel Dates</span>
-                      <span className="flex-1" />
-                      <span className="text-gray-900 font-semibold">
-                        {formatDateRange(trip.travel_start_date, trip.travel_end_date)}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <LuClock4 className='text-xl' />
-                      <span>Deadline</span>
-                      <span className="flex-1" />
-                      <span className="text-gray-900 font-semibold">
-                        {formatDate(trip.end_date)} / {trip.seat_count} seats
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stats Row */}
-                  <div className="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg mt-auto">
-                    <div className="flex-1 text-center">
-                      <div className="text-lg font-bold text-gray-900 flex items-center justify-center">
-                        {remainingSeats}
-                        <span className="text-sm ml-2"><FaUser className='inline text-gray-400' /></span>
-                      </div>
-                      <div className="text-xs text-gray-500">Available</div>
-                    </div>
-                    <div className="h-8 w-px bg-gray-300 mx-4" />
-                    <div className="flex-1 text-center">
-                      <div className="text-lg font-bold text-gray-900">{salesStatus.soldSeats}</div>
-                      <div className="text-xs text-gray-500">My Sales</div>
-                    </div>
-                    <div className="h-8 w-px bg-gray-300 mx-4" />
-                    <div className="flex-1 text-center">
-                      <div className="text-lg font-bold text-gray-900">
-                        {formatPrice(getActualCommissionAmount(trip))}
-                      </div>
-                      <div className="text-xs text-gray-500">Commission</div>
-                    </div>
-                  </div>
-
-                  {/* Share Button */}
-                  <button 
-                    onClick={() => copyShareLink(trip)}
-                    className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 cursor-pointer"
-                  >
-                    <ImLink className='text-xl' />
-                    <span>Share Trip</span>
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
         )}
 
         {sortedTrips.length === 0 && (
@@ -563,15 +557,15 @@ function TripsPage() {
               No {activeFilter === 'all' ? '' : activeFilter} trips available
             </h3>
             <p className="text-gray-600">
-              {activeFilter === 'all' 
-                ? 'There is no trip data in the system yet' 
+              {activeFilter === 'all'
+                ? 'There is no trip data in the system yet'
                 : `There are no ${activeFilter} trips at the moment`
               }
             </p>
           </div>
         )}
       </div>
-      
+
       {/* Toaster for notifications */}
       <Toaster />
     </div>
