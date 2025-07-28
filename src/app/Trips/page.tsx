@@ -239,7 +239,7 @@ function TripsPage() {
   if (loading) {
     return (
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Trip Information</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Trip Information</h1>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-center h-40">
             <div className="text-gray-500">Loading trips...</div>
@@ -252,7 +252,7 @@ function TripsPage() {
   if (error) {
     return (
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Trip Information</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Trip Information</h1>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="text-center text-red-600">
             <p>Error loading trips: {error}</p>
@@ -273,7 +273,7 @@ function TripsPage() {
       {/* Header */}
       <div className='mx-4'>
         <div className="flex  items-center mb-6 gap-5">
-          <h1 className="text-3xl flex font-bold text-gray-900">All Trips Information</h1>
+          <h1 className="text-3xl flex font-bold text-gray-800">All Trips Information</h1>
           <div className="flex">
             <select
               value={sortBy}
@@ -293,8 +293,8 @@ function TripsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setActiveFilter('all')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'all'
-                  ? 'bg-black text-white'
+                className={`px-4 py-2 rounded-full hover:cursor-pointer text-sm transition-colors ${activeFilter === 'all'
+                  ? 'bg-gray-800 text-white'
                   : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
@@ -302,8 +302,8 @@ function TripsPage() {
               </button>
               <button
                 onClick={() => setActiveFilter('sold')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'sold'
-                  ? 'bg-black text-white'
+                className={`px-4 py-2 rounded-full hover:cursor-pointer text-sm transition-colors ${activeFilter === 'sold'
+                  ? 'bg-gray-800 text-white'
                   : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
@@ -311,8 +311,8 @@ function TripsPage() {
               </button>
               <button
                 onClick={() => setActiveFilter('unsold')}
-                className={`px-4 py-2 rounded-full text-sm transition-colors ${activeFilter === 'unsold'
-                  ? 'bg-black text-white'
+                className={`px-4 py-2 rounded-full hover:cursor-pointer  text-sm transition-colors ${activeFilter === 'unsold'
+                  ? 'bg-gray-800 text-white'
                   : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
@@ -325,7 +325,7 @@ function TripsPage() {
           </div>
 
           {/* View Toggle Buttons */}
-          <div className="relative bg-black rounded-full p-0.5 flex">
+          <div className="relative bg-gray-800 rounded-full p-0.5 flex">
             {/* Background slider */}
             <div
               className={`absolute top-0.5 bottom-0.5 bg-white rounded-full transition-all duration-300 ease-in-out ${viewMode === 'grid' ? 'left-0.5 right-[50%]' : 'left-[50%] right-0.5'
@@ -335,20 +335,20 @@ function TripsPage() {
             <button
               onClick={() => setViewMode('grid')}
               className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${viewMode === 'grid'
-                ? 'text-gray-900'
+                ? 'text-gray-800'
                 : 'text-gray-400 hover:text-gray-300'
                 }`}
             >
-              <HiOutlineSquares2X2 className="w-5 h-5 font-bold" />
+              <HiOutlineSquares2X2 className="w-5 hover:cursor-pointer h-5 font-bold" />
             </button>
             <button
               onClick={() => setViewMode('list')}
               className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${viewMode === 'list'
-                ? 'text-gray-900'
+                ? 'text-gray-800'
                 : 'text-gray-400 hover:text-gray-300'
                 }`}
             >
-              <PiListDashesBold className="w-5 h-5 font-bold" />
+              <PiListDashesBold className="w-5 hover:cursor-pointer h-5 font-bold" />
             </button>
           </div>
         </div>
@@ -401,21 +401,21 @@ function TripsPage() {
                             )}
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-900 text-md">{trip.name}</h3>
+                            <h3 className="font-semibold text-gray-800 text-md">{trip.name}</h3>
                           </div>
                         </div>
                       </td>
 
                       {/* Travel Dates */}
                       <td className="px-4 py-4 text-center">
-                        <div className="text-sm text-gray-900 ">
+                        <div className="text-sm text-gray-800 ">
                           {formatDateRange(trip.travel_start_date, trip.travel_end_date)}
                         </div>
                       </td>
 
                       {/* Deadline */}
                       <td className="px-4 py-4 text-center">
-                        <div className="text-sm text-gray-900 ">
+                        <div className="text-sm text-gray-800 ">
                           {formatDate(trip.end_date)}
                         </div>
                       </td>
@@ -424,7 +424,7 @@ function TripsPage() {
                       <td className="px-4 py-4 text-center">
                         <div className="flex flex-col items-center">
                           <div className="text-sm flex items-center justify-center w-full">
-                            <span className={`${isLowSeats ? 'text-red-600' : 'text-gray-900'} font-semibold`}>
+                            <span className={`${isLowSeats ? 'text-red-600' : 'text-gray-800'} font-semibold`}>
                               {remainingSeats}
                             </span>
                             /{trip.seat_count} <FaUser className='inline text-gray-400 ml-1' />
@@ -443,14 +443,14 @@ function TripsPage() {
 
                       {/* My Sales */}
                       <td className="px-4 py-4 text-center">
-                        <div className="text-lg text-gray-900">
+                        <div className="text-lg text-gray-800">
                           {salesStatus.soldSeats}
                         </div>
                       </td>
 
                       {/* Commission */}
                       <td className="px-4 py-4 text-center">
-                        <div className="text-lg  text-gray-900">
+                        <div className="text-lg  text-gray-800">
                           {formatPrice(getActualCommissionAmount(trip))}
                         </div>
                       </td>
@@ -459,7 +459,7 @@ function TripsPage() {
                       <td className="px-4 py-4 text-center">
                         <button
                           onClick={() => copyShareLink(trip)}
-                          className="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 text-sm bg-black text-white hover:bg-gray-800 cursor-pointer"
+                          className="px-3 py-1.5 rounded-lg  flex items-center gap-1 text-sm bg-gray-800  text-white hover:text-orange-600 hover:scale-110 transition-all duration-200 ease-in-out cursor-pointer"
                         >
                           <ImLink className='text-xs' />
                           <span>Share</span>
@@ -470,7 +470,7 @@ function TripsPage() {
                       <td className="px-4 py-4 text-center">
                         <div className="relative group">
                           <button
-                            className='px-2 py-1 hover:cursor-pointer text-gray-600 hover:text-gray-900'
+                            className='px-2 py-1 hover:cursor-pointer text-gray-600 hover:text-gray-800'
                             onClick={() => openModal(trip)}
                           >
                             <BsInfoCircle className='inline text-xl' />
@@ -499,12 +499,12 @@ function TripsPage() {
               return (
                 <div key={trip.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow flex flex-col h-full">
                   {/* Trip Image with Price Overlay */}
-                  <div className="relative h-30 m-4 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
+                  <div className="relative h-40 mb-4 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200">
                     {trip.cover_img ? (
                       <img
                         src={trip.cover_img}
                         alt={trip.name}
-                        className="w-full h-full object-cover rounded-lg"
+                        className="w-full h-full object-cover "
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-6xl">
@@ -522,7 +522,7 @@ function TripsPage() {
                   {/* Trip Info */}
                   <div className="px-4 pt-0 py-4 flex flex-col h-full">
                     {/* Trip Title */}
-                    <h3 className="font-bold text-gray-900 text-md mb-4 h-12 line-clamp-2 leading-6">{trip.name}</h3>
+                    <h3 className="font-bold text-gray-800 text-md mb-4 h-12 line-clamp-2 leading-6">{trip.name}</h3>
 
                     {/* Trip Details */}
                     <div className="space-y-2 text-sm text-gray-600 mb-4 text-nowrap flex-grow">
@@ -530,7 +530,7 @@ function TripsPage() {
                         {<LuPlaneTakeoff className='text-xl' />}
                         <span>Travel Dates</span>
                         <span className="flex-1" />
-                        <span className="text-gray-900 font-semibold">
+                        <span className="text-gray-800 font-semibold">
                           {formatDateRange(trip.travel_start_date, trip.travel_end_date)}
                         </span>
                       </div>
@@ -538,7 +538,7 @@ function TripsPage() {
                         <LuClock4 className='text-xl' />
                         <span>Deadline</span>
                         <span className="flex-1" />
-                        <span className="text-gray-900 font-semibold">
+                        <span className="text-gray-800 font-semibold">
                           {formatDate(trip.end_date)} / {trip.seat_count} seats
                         </span>
                       </div>
@@ -547,7 +547,7 @@ function TripsPage() {
                     {/* Stats Row */}
                     <div className="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg mt-auto">
                       <div className="flex-1 text-center">
-                        <div className="text-lg font-bold text-gray-900 flex items-center justify-center">
+                        <div className="text-lg font-bold text-gray-800 flex items-center justify-center">
                           {remainingSeats}
                           <span className="text-sm ml-2"><FaUser className='inline text-gray-400' /></span>
                         </div>
@@ -555,12 +555,12 @@ function TripsPage() {
                       </div>
                       <div className="h-8 w-px bg-gray-300 mx-4" />
                       <div className="flex-1 text-center">
-                        <div className="text-lg font-bold text-gray-900">{salesStatus.soldSeats}</div>
+                        <div className="text-lg font-bold text-gray-800">{salesStatus.soldSeats}</div>
                         <div className="text-xs text-gray-500">My Sales</div>
                       </div>
                       <div className="h-8 w-px bg-gray-300 mx-4" />
                       <div className="flex-1 text-center">
-                        <div className="text-lg font-bold text-gray-900">
+                        <div className="text-lg font-bold text-gray-800">
                           {formatPrice(getActualCommissionAmount(trip))}
                         </div>
                         <div className="text-xs text-gray-500">Commission</div>
@@ -568,20 +568,20 @@ function TripsPage() {
                     </div>
 
                     {/* Share Button */}
-                    <div className='w-full px-2 py-2 rounded-lg transition-colors flex items-center justify-between gap-2 bg-black text-white  cursor-alias'>
+                    <div className='w-full px-2 py-2 rounded-lg transition-colors flex items-center justify-between gap-2 bg-gray-800 text-white  cursor-alias'>
                       <button
-                      onClick={() => copyShareLink(trip)}
-                      className="w-full rounded-md py-2 transition-colors flex items-center justify-center gap-2  text-white  cursor-alias"
+                        onClick={() => copyShareLink(trip)}
+                        className="w-full rounded-md py-2 hover:text-orange-600 hover:scale-110 transition-all duration-200 ease-in-out flex items-center justify-center gap-2 text-white cursor-alias"
                       >
-                      <ImLink className='text-xl' />
-                      <span>Share Trip</span>
+                        <ImLink className='text-xl' />
+                        <span>Share Trip</span>
                       </button>
                         <div className="relative group">
                         <button
                           className='px-2 hover:cursor-pointer'
                           onClick={() => openModal(trip)}
                         >
-                          <span><BsInfoCircle className='inline text-xl' /></span>
+                          <span><BsInfoCircle className='inline text-xl hover:text-orange-600 hover:scale-110 transition-all duration-200 ease-in-out ' /></span>
                         </button>
                         <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 z-10 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity bg-gray-900/80 text-white text-xs rounded px-3 py-1 whitespace-nowrap shadow-lg">
                           More Info
@@ -598,7 +598,7 @@ function TripsPage() {
         {sortedTrips.length === 0 && (
           <div className="bg-white rounded-xl shadow-md p-12 text-center">
             <div className="text-6xl mb-4">✈️</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
               No {activeFilter === 'all' ? '' : activeFilter} trips available
             </h3>
             <p className="text-gray-600">

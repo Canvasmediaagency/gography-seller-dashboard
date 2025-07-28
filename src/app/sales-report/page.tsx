@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import { DateRange } from "react-day-picker"
 import { DateRangePicker } from "@/components/DateRangePicker"
@@ -14,7 +14,61 @@ function SalesReportPage() {
   // Date Range State - เริ่มต้นเป็น undefined เพื่อแสดง "All"
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
 
-  const currentCommission = 45200
+  // Generate mock data based on date range using useMemo to prevent constant re-generation
+  const getMockDataForDateRange = (dateRange: DateRange | undefined) => {
+    if (!dateRange?.from || !dateRange?.to) {
+      // Default data when no date range selected (All)
+      return {
+        totalSales: 459500,
+        tripsSold: 4,
+        totalCommission: 45950,
+        commissionRate: 10 // 10%
+      }
+    }
+
+    // Create a seed based on the date range to ensure consistent random data
+    const dateString = `${dateRange.from.getTime()}-${dateRange.to.getTime()}`
+    const seed = dateString.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0)
+      return a & a
+    }, 0)
+
+    // Seeded random function to ensure consistent results
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed) * 10000
+      return x - Math.floor(x)
+    }
+
+    // Calculate days in selected range
+    const diffTime = Math.abs(dateRange.to.getTime() - dateRange.from.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
+
+    // Generate consistent random data based on date range
+    const baseAmount = Math.floor(seededRandom(seed) * 50000) + 30000 // 30k-80k base
+    const dailyAverage = Math.floor(baseAmount / Math.max(diffDays, 1))
+    const totalSales = dailyAverage * diffDays + Math.floor(seededRandom(seed + 1) * 100000)
+    
+    // Commission rate between 7-12%
+    const commissionRate = Math.floor(seededRandom(seed + 2) * 6) + 7 // 7-12%
+    const totalCommission = Math.floor(totalSales * (commissionRate / 100))
+    
+    // Trips sold based on sales amount
+    const tripsSold = Math.max(1, Math.floor(totalSales / 100000) + Math.floor(seededRandom(seed + 3) * 3))
+
+    return {
+      totalSales,
+      tripsSold,
+      totalCommission,
+      commissionRate
+    }
+  }
+
+  // Use useMemo to prevent constant re-generation of mock data
+  const mockData = useMemo(() => {
+    return getMockDataForDateRange(dateRange)
+  }, [dateRange]) // Only regenerate when dateRange changes
+  
+  const currentCommission = 45950
   const progressPercentage = (currentCommission / commissionTarget) * 100
 
   // Animate progress bar on mount and when target changes
@@ -45,7 +99,6 @@ function SalesReportPage() {
   // Handle date range change
   const handleDateRangeChange = (newDateRange: DateRange | undefined) => {
     setDateRange(newDateRange)
-    // Here you can add logic to filter data based on date range
     console.log('Date range changed:', newDateRange)
   }
 
@@ -118,7 +171,7 @@ function SalesReportPage() {
           </div>
           <div>
             <div className="flex flex-row items-center gap-2">
-              <p className='text-lg text-gray-900 flex font-bold'>Mr.John Doe </p>
+              <p className='text-lg text-gray-800 flex font-bold'>Mr.John Doe </p>
               <p className='text-[12px] bg-orange-600/8 px-2 py-[2px] rounded-full text-orange-600 flex'>Ranking #2</p>
             </div>
             <p className="text-md text-gray-800">Sale ID: #12568</p>
@@ -126,8 +179,9 @@ function SalesReportPage() {
 
         </div>
         <div className='flex flex-row gap-8 items-end'>
-          <h1 className="text-3xl font-bold text-gray-900 mt-4">Overall Sales Report</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mt-4">Overall Sales Report</h1>
           <div className="mt-4">
+            {/* date picker 1 */}
             <DateRangePicker
               date={dateRange}
               onDateChange={handleDateRangeChange}
@@ -141,19 +195,21 @@ function SalesReportPage() {
         <div className='flex flex-row gap-6 justify-between w-full items-center px-4 py-2  rounded-3xl mt-2 '>
           <div className='flex bg-white flex-col w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm  items-start gap-2'>
             <p>Total sales</p>
-            <p className='text-3xl font-bold text-gray-900'>459,500.-</p>
+            <p className='text-3xl font-bold text-gray-800'>{mockData.totalSales.toLocaleString()}.-</p>
           </div>
           <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Trips Sold</p>
-            <p className='text-3xl font-bold text-gray-900'>4 Trips</p>
+            <p className='text-3xl font-bold text-gray-800'>{mockData.tripsSold} Trips</p>
           </div>
           <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Total Commission</p>
-            <p className='text-3xl font-bold text-gray-900'>45,950.-</p>
+            <p className='text-3xl font-bold text-gray-800'>{mockData.totalCommission.toLocaleString()}.-</p>
           </div>
           <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
-            <p>Ranking</p>
-            <p className='text-3xl font-bold text-gray-900'>1st</p>
+            <p>Current Ranking</p>
+            <div className="flex items-center gap-2">
+              <p className='text-3xl font-bold text-gray-800'>2nd</p>
+            </div>
           </div>
         </div>
       </div>
@@ -163,7 +219,7 @@ function SalesReportPage() {
         <div className='w-1/2'>
           <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-2'>
-              <h3 className='text-xl font-bold text-gray-900'>Total Sales Summary</h3>
+              <h3 className='text-xl font-bold text-gray-800'>Total Sales Summary</h3>
               <select className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="6m">6 months</option>
                 <option value="1m">1 month</option>
@@ -173,7 +229,7 @@ function SalesReportPage() {
             </div>
 
             <div className='mb-4'>
-              <p className='text-3xl font-bold text-gray-900'>495,000.-</p>
+              <p className='text-3xl font-bold text-gray-800'>495,000.-</p>
             </div>
 
             {/* Bar Chart */}
@@ -200,7 +256,7 @@ function SalesReportPage() {
               <div className='flex justify-between px-8 mt-1'>
                 {chartData.map((item, index) => (
                   <div key={index} className='text-center'>
-                    <p className='text-sm font-semibold text-gray-900 mb-1'>{item.value.toLocaleString()}.-</p>
+                    <p className='text-sm font-semibold text-gray-800 mb-1'>{item.value.toLocaleString()}.-</p>
                     <p className='text-xs text-gray-500'>{item.month}</p>
                   </div>
                 ))}
@@ -212,11 +268,11 @@ function SalesReportPage() {
         <div className='w-1/2'>
           <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-4'>
-              <h3 className='text-xl font-bold text-gray-900'>Commission Target</h3>
+              <h3 className='text-xl font-bold text-gray-800'>Commission Target</h3>
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
-                  className='text-sm text-gray-900 underline hover:text-gray-900 cursor-pointer'
+                  className='text-sm text-gray-800 underline hover:text-gray-800 cursor-pointer'
                 >
                   Edit
                 </button>
@@ -224,7 +280,7 @@ function SalesReportPage() {
                 <div className='flex gap-2'>
                   <button
                     onClick={handleSave}
-                    className='text-sm text-gray-900 underline hover:text-gray-900 cursor-pointer'
+                    className='text-sm text-gray-800 underline hover:text-gray-800 cursor-pointer'
                   >
                     Save
                   </button>
@@ -241,7 +297,7 @@ function SalesReportPage() {
             {/* Progress */}
             <div className='mb-6'>
               <div className='flex items-center gap-2 mb-2'>
-                <span className='text-3xl font-bold text-gray-900'>{currentCommission.toLocaleString()}.-</span>
+                <span className='text-3xl font-bold text-gray-800'>{currentCommission.toLocaleString()}.-</span>
                 <span className='text-lg text-gray-500'>/ </span>
                 {isEditing ? (
                   <input
@@ -273,53 +329,53 @@ function SalesReportPage() {
 
             {/* Trip List */}
             <div className='space-y-4'>
-              <h4 className='font-semibold text-gray-900 mb-3'>Top Selling Trips</h4>
+              <h4 className='font-semibold text-gray-800 mb-3'>Top Selling Trips</h4>
 
               {/* Trip 1 */}
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-900'>1</span>
+                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>1</span>
                   <span className='text-lg'>🇮🇸</span>
                   <div>
-                    <p className=' text-gray-900'>2025 Aurora Trails</p>
+                    <p className=' text-gray-800'>2025 Aurora Trails</p>
                     <p className='text-sm text-gray-600'>in Iceland</p>
                   </div>
                 </div>
                 <div className='flex items-center gap-4'>
-                  <p className='text-gray-900'>12 people</p>
-                  <p className='text-sm font-semibold text-gray-900'>14,290.-</p>
+                  <p className='text-gray-800'>12 people</p>
+                  <p className='text-sm font-semibold text-gray-800'>14,290.-</p>
                 </div>
               </div>
 
               {/* Trip 2 */}
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-900'>2</span>
+                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>2</span>
                   <span className='text-lg'>🇮🇹</span>
                   <div>
-                    <p className=' text-gray-900'>2025 Summer</p>
+                    <p className=' text-gray-800'>2025 Summer</p>
                     <p className='text-sm text-gray-600'>in Dolomites</p>
                   </div>
                 </div>
                 <div className='flex items-center gap-4'>
-                  <p className='text-gray-900'>8 people</p>
-                  <p className='text-sm font-semibold text-gray-900'>9,500.-</p>
+                  <p className='text-gray-800'>8 people</p>
+                  <p className='text-sm font-semibold text-gray-800'>9,500.-</p>
                 </div>
               </div>
 
               {/* Trip 3 */}
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-900'>3</span>
+                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>3</span>
                   <span className='text-lg'>🇨🇦</span>
                   <div>
-                    <p className=' text-gray-900'>2025 CANADA</p>
+                    <p className=' text-gray-800'>2025 CANADA</p>
                     <p className='text-sm text-gray-600'>AUTUMN</p>
                   </div>
                 </div>
                 <div className='flex items-center gap-4'>
-                  <p className='text-gray-900'>4 people</p>
-                  <p className='text-sm font-semibold text-gray-900'>7,200.-</p>
+                  <p className='text-gray-800'>4 people</p>
+                  <p className='text-sm font-semibold text-gray-800'>7,200.-</p>
                 </div>
               </div>
             </div>
@@ -331,7 +387,7 @@ function SalesReportPage() {
       <div className='mx-4 mb-6 rounded-2xl shadow-lg bg-white border-1'>
         <div className="flex justify-between items-center p-4 ">
           <div className='flex flex-row items-center'>
-            <h3 className='font-semibold text-xl text-gray-900'>Total Trips Sold</h3>
+            <h3 className='font-semibold text-xl text-gray-800'>Total Trips Sold</h3>
             <span className='px-4 py-1 text-white bg-gray-900 mx-4 rounded-full text-sm'>
               {tripsData.length} Trips
             </span>
@@ -369,7 +425,7 @@ function SalesReportPage() {
                     <div className="flex items-center gap-3">
                       <span className="text-lg">{trip.flag}</span>
                       <div>
-                        <p className=" text-gray-900">{trip.name}</p>
+                        <p className=" text-gray-800">{trip.name}</p>
                         <p className="text-sm text-gray-600">{trip.location}</p>
                       </div>
                     </div>
@@ -377,7 +433,7 @@ function SalesReportPage() {
 
                   {/* Date */}
                   <td className="p-4">
-                    <p className="text-sm text-gray-900">{trip.date}</p>
+                    <p className="text-sm text-gray-800">{trip.date}</p>
                   </td>
 
                   {/* Seats */}
@@ -404,12 +460,12 @@ function SalesReportPage() {
 
                   {/* Price */}
                   <td className="p-4">
-                    <p className="font-semibold text-gray-900 text-right">{trip.price}</p>
+                    <p className="font-semibold text-gray-800 text-right">{trip.price}</p>
                   </td>
 
                   {/* Commission */}
                   <td className="p-4">
-                    <p className="font-bold text-gray-900 text-right">{trip.commission}</p>
+                    <p className="font-bold text-gray-800 text-right">{trip.commission}</p>
                   </td>
                 </tr>
               ))}
