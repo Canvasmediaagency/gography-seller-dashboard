@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 import { DateRange } from "react-day-picker"
 import { DateRangePicker } from "@/components/DateRangePicker"
+import { CiEdit } from "react-icons/ci";
 
 function SalesReportPage() {
   // Commission Target States
@@ -370,7 +371,7 @@ function SalesReportPage() {
           <div className='flex flex-col bg-white w-1/4 rounded-2xl p-4 px-6 border-1 shadow-sm items-start gap-2'>
             <p>Current Ranking</p>
             <div className="flex items-center gap-2">
-              <p className='text-3xl font-bold text-gray-800'>2nd</p>
+              <p className='text-3xl font-bold text-gray-800'>2<span className='text-gray-600 text-xl font-normal'>/45</span></p>
             </div>
           </div>
         </div>
@@ -470,9 +471,9 @@ function SalesReportPage() {
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
-                  className='text-sm text-gray-800 underline hover:text-gray-800 cursor-pointer'
+                  className=' text-gray-800 underline hover:text-orange-600 cursor-pointer'
                 >
-                  Edit
+                <CiEdit className='text-2xl' />
                 </button>
               ) : (
                 <div className='flex gap-2'>
@@ -556,7 +557,7 @@ function SalesReportPage() {
                     <img 
                       src={trip.image}
                       alt={trip.name}
-                      className="w-full h-16 object-cover"
+                      className="w-full h-22 object-cover"
                     />
                     <div className='p-2'>
                       <p className='font-bold text-sm text-gray-800 truncate'>{trip.name}</p>
