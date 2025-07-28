@@ -1,6 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+import { DateRange } from "react-day-picker"
+import { DateRangePicker } from "@/components/DateRangePicker"
 
 function SalesReportPage() {
   // Commission Target States
@@ -8,6 +10,9 @@ function SalesReportPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [tempTarget, setTempTarget] = useState(commissionTarget)
   const [animatedProgress, setAnimatedProgress] = useState(0)
+
+  // Date Range State - เริ่มต้นเป็น undefined เพื่อแสดง "All"
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
 
   const currentCommission = 45200
   const progressPercentage = (currentCommission / commissionTarget) * 100
@@ -35,6 +40,13 @@ function SalesReportPage() {
   const handleCancel = () => {
     setTempTarget(commissionTarget)
     setIsEditing(false)
+  }
+
+  // Handle date range change
+  const handleDateRangeChange = (newDateRange: DateRange | undefined) => {
+    setDateRange(newDateRange)
+    // Here you can add logic to filter data based on date range
+    console.log('Date range changed:', newDateRange)
   }
 
   const chartData = [
@@ -96,18 +108,30 @@ function SalesReportPage() {
     <div className='flex flex-col'>
       {/* Header */}
       <div className='mx-4'>
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Overall Sales Report</h1>
-        <div className="flex-row flex items-center gap-3">
-          <div className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+        <div className="flex-row flex items-center gap-3  pb-5 border-b border-gray-200">
+          <div className="w-13 h-13 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
             <img
               src="https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6"
               alt="Profile"
               className="w-full h-full object-cover rounded-full"
             />
           </div>
-          <p className='text-xl text-gray-900 font-bold'>Mr.John Doe</p>
-          <div className='border-gray-300 border rounded-full bg-white p-1'>
-            <p className="text-[12px] text-gray-800 mx-2">Sale ID: #12568</p>
+          <div>
+            <div className="flex flex-row items-center gap-2">
+              <p className='text-lg text-gray-900 flex font-bold'>Mr.John Doe </p>
+              <p className='text-[12px] bg-orange-600/8 px-2 py-[2px] rounded-full text-orange-600 flex'>Ranking #2</p>
+            </div>
+            <p className="text-md text-gray-800">Sale ID: #12568</p>
+          </div>
+
+        </div>
+        <div className='flex flex-row gap-8 items-end'>
+          <h1 className="text-3xl font-bold text-gray-900 mt-4">Overall Sales Report</h1>
+          <div className="mt-4">
+            <DateRangePicker
+              date={dateRange}
+              onDateChange={handleDateRangeChange}
+            />
           </div>
         </div>
       </div>
