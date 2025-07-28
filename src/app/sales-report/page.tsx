@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useMemo } from 'react'
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts'
 import { DateRange } from "react-day-picker"
 import { DateRangePicker } from "@/components/DateRangePicker"
 
@@ -16,6 +16,9 @@ function SalesReportPage() {
   
   // Total Trips Time Filter State
   const [tripsTimeFilter, setTripsTimeFilter] = useState('6m')
+  
+  // Chart Time Filter State
+  const [chartTimeFilter, setChartTimeFilter] = useState('6m')
 
   // Generate mock data based on date range using useMemo to prevent constant re-generation
   const getMockDataForDateRange = (dateRange: DateRange | undefined) => {
@@ -105,13 +108,62 @@ function SalesReportPage() {
     console.log('Date range changed:', newDateRange)
   }
 
-  const chartData = [
-    { month: 'Jan', value: 8500, fullMonth: 'January' },
-    { month: 'Feb', value: 11200, fullMonth: 'February' },
-    { month: 'Mar', value: 7600, fullMonth: 'March' },
-    { month: 'Apr', value: 13500, fullMonth: 'April' },
-    { month: 'May', value: 9200, fullMonth: 'May' }
-  ]
+  // Generate chart data based on time filter
+  const getChartData = (filter: string) => {
+    const baseData = {
+      '6m': [
+        { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
+        { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
+        { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
+        { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
+        { month: 'May', sales: 9200, commission: 920, total: 10120 }
+      ],
+      '1m': [
+        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+      ],
+      '3m': [
+        { month: 'May', sales: 9200, commission: 920, total: 10120 },
+        { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
+        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+      ],
+      '1y': [
+        { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
+        { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
+        { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
+        { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
+        { month: 'May', sales: 9200, commission: 920, total: 10120 },
+        { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
+        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 },
+        { month: 'Aug', sales: 11800, commission: 1180, total: 12980 },
+        { month: 'Sep', sales: 10500, commission: 1050, total: 11550 },
+        { month: 'Oct', sales: 9800, commission: 980, total: 10780 },
+        { month: 'Nov', sales: 14200, commission: 1420, total: 15620 },
+        { month: 'Dec', sales: 16500, commission: 1650, total: 18150 }
+      ]
+    }
+    return baseData[filter as keyof typeof baseData] || baseData['6m']
+  }
+
+  // Use chart data based on filter
+  const chartData = useMemo(() => {
+    return getChartData(chartTimeFilter)
+  }, [chartTimeFilter])
+
+  // Handle chart time filter change
+  const handleChartTimeFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setChartTimeFilter(event.target.value)
+    console.log('Chart time filter changed to:', event.target.value)
+  }
+
+  // Format number for display (K format for periods > 6 months)
+  const formatNumberForChart = (number: number, timeFilter: string) => {
+    if (timeFilter === '1y') {
+      if (number >= 1000) {
+        return (number / 1000).toFixed(1) + 'K'
+      }
+    }
+    return number.toLocaleString()
+  }
 
   // Generate filtered trips data based on time filter
   const getFilteredTripsData = (filter: string) => {
@@ -275,22 +327,40 @@ function SalesReportPage() {
           <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-2'>
               <h3 className='text-xl font-bold text-gray-800'>Total Sales Summary</h3>
-              <select className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="6m">6 months</option>
+              <select 
+                className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={chartTimeFilter}
+                onChange={handleChartTimeFilterChange}
+              >
                 <option value="1m">1 month</option>
                 <option value="3m">3 months</option>
+                <option value="6m">6 months</option>
                 <option value="1y">1 year</option>
               </select>
             </div>
 
+            {/* Legend */}
+            <div className='flex items-center gap-4 mb-4'>
+              <div className='flex items-center gap-2'>
+                <div className='w-3 h-3 bg-orange-600 rounded'></div>
+                <span className='text-sm text-gray-600'>Total Sales</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <div className='w-3 h-3 bg-gray-800 rounded'></div>
+                <span className='text-sm text-gray-600'>Commission</span>
+              </div>
+            </div>
+
             <div className='mb-4'>
-              <p className='text-3xl font-bold text-gray-800'>495,000.-</p>
+              <p className='text-3xl font-bold text-gray-800'>
+                {chartData.reduce((sum, item) => sum + item.total, 0).toLocaleString()}.-
+              </p>
             </div>
 
             {/* Bar Chart */}
-            <div className='h-48 mt-4'>
+            <div className='h-64 mt-4 relative'>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
                   <XAxis
                     dataKey="month"
                     axisLine={false}
@@ -299,20 +369,37 @@ function SalesReportPage() {
                   />
                   <YAxis hide />
                   <Bar
-                    dataKey="value"
-                    fill="#D1D5DB"
-                    radius={[6, 6, 6, 6]}
+                    dataKey="commission"
+                    stackId="stack"
+                    fill="#1f2937"
+                    radius={[0, 0, 6, 6]}
+                    barSize={60}
+                  />
+                  <Bar
+                    dataKey="sales"
+                    stackId="stack"
+                    fill="#ea580c"
+                    radius={[6, 6, 0, 0]}
                     barSize={60}
                   />
                 </BarChart>
               </ResponsiveContainer>
 
-              {/* Values below bars */}
-              <div className='flex justify-between px-8 mt-1'>
-                {chartData.map((item, index) => (
-                  <div key={index} className='text-center'>
-                    <p className='text-sm font-semibold text-gray-800 mb-1'>{item.value.toLocaleString()}.-</p>
-                    <p className='text-xs text-gray-500'>{item.month}</p>
+              {/* Values below bars - positioned outside chart */}
+              <div className='absolute bottom-0 left-0 right-0 h-8 flex items-center justify-between px-8'>
+                {chartData.map((entry, index) => (
+                  <div 
+                    key={index} 
+                    className='flex-1 flex justify-center'
+                    style={{
+                      transform: chartTimeFilter === '1y' ? 'rotate(-75deg)' : 'none',
+                      transformOrigin: 'center center'
+                    }}
+                  >
+                    <span className='text-xs font-semibold text-gray-800 whitespace-nowrap'>
+                      {formatNumberForChart(entry.total, chartTimeFilter)}
+                      {chartTimeFilter !== '1y' ? '.-' : ''}
+                    </span>
                   </div>
                 ))}
               </div>
