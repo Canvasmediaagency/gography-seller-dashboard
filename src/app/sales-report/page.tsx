@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useMemo } from 'react'
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 import { DateRange } from "react-day-picker"
 import { DateRangePicker } from "@/components/DateRangePicker"
 
@@ -110,37 +110,39 @@ function SalesReportPage() {
 
   // Generate chart data based on time filter
   const getChartData = (filter: string) => {
+    // Updated 1y total sales to 459,500.-
     const baseData = {
       '6m': [
-        { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
-        { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
-        { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
-        { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
-        { month: 'May', sales: 9200, commission: 920, total: 10120 }
+      { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
+      { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
+      { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
+      { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
+      { month: 'May', sales: 9200, commission: 920, total: 10120 }
       ],
       '1m': [
-        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+      { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
       ],
       '3m': [
-        { month: 'May', sales: 9200, commission: 920, total: 10120 },
-        { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
-        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+      { month: 'May', sales: 9200, commission: 920, total: 10120 },
+      { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
+      { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
       ],
       '1y': [
-        { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
-        { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
-        { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
-        { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
-        { month: 'May', sales: 9200, commission: 920, total: 10120 },
-        { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
-        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 },
-        { month: 'Aug', sales: 11800, commission: 1180, total: 12980 },
-        { month: 'Sep', sales: 10500, commission: 1050, total: 11550 },
-        { month: 'Oct', sales: 9800, commission: 980, total: 10780 },
-        { month: 'Nov', sales: 14200, commission: 1420, total: 15620 },
-        { month: 'Dec', sales: 16500, commission: 1650, total: 18150 }
+      { month: 'Jan', sales: 38200, commission: 3820, total: 42020 },
+      { month: 'Feb', sales: 41000, commission: 4100, total: 45100 },
+      { month: 'Mar', sales: 37000, commission: 3700, total: 40700 },
+      { month: 'Apr', sales: 41000, commission: 4100, total: 45100 },
+      { month: 'May', sales: 39000, commission: 3900, total: 42900 },
+      { month: 'Jun', sales: 38000, commission: 3800, total: 41800 },
+      { month: 'Jul', sales: 41000, commission: 4100, total: 45100 },
+      { month: 'Aug', sales: 38000, commission: 3800, total: 41800 },
+      { month: 'Sep', sales: 38000, commission: 3800, total: 41800 },
+      { month: 'Oct', sales: 38000, commission: 3800, total: 41800 },
+      { month: 'Nov', sales: 38000, commission: 3800, total: 41800 },
+      { month: 'Dec', sales: 32300, commission: 3950, total: 43450 }
       ]
     }
+    // 1y sales sum: 38200+41000+37000+41000+39000+38000+41000+38000+38000+38000+38000+39500 = 459,500
     return baseData[filter as keyof typeof baseData] || baseData['6m']
   }
 
@@ -194,7 +196,7 @@ function SalesReportPage() {
           { status: 'done' },
           { status: 'done' },
           { status: 'done' },
-          { status: 'pending' },
+          { status: 'done' },
           { status: 'pending' }
         ],
         totalSeats: 5,
@@ -225,11 +227,11 @@ function SalesReportPage() {
         date: '15 - 22 April 2025',
         seats: [
           { status: 'done' },
-          { status: 'cancel' },
-          { status: 'pending' },
-          { status: 'pending' },
-          { status: 'pending' },
-          { status: 'pending' }
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'cancel' }
         ],
         totalSeats: 6,
         price: '89,000.-',
@@ -262,6 +264,59 @@ function SalesReportPage() {
   const handleTripsTimeFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTripsTimeFilter(event.target.value)
     console.log('Trips time filter changed to:', event.target.value)
+  }
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const salesData = payload.find((p: any) => p.dataKey === 'sales')
+      const commissionData = payload.find((p: any) => p.dataKey === 'commission')
+      
+      // Convert abbreviated month to full name
+      const monthNames: { [key: string]: string } = {
+        'Jan': 'January',
+        'Feb': 'February',
+        'Mar': 'March',
+        'Apr': 'April',
+        'May': 'May',
+        'Jun': 'June',
+        'Jul': 'July',
+        'Aug': 'August',
+        'Sep': 'September',
+        'Oct': 'October',
+        'Nov': 'November',
+        'Dec': 'December'
+      }
+      
+      const fullMonthName = monthNames[label] || label
+      
+      return (
+        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 min-w-[120px]">
+          <p className="text-sm font-semibold text-gray-800 mb-2">{fullMonthName}</p>
+          <div className="space-y-1">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-orange-600 rounded"></div>
+                <span className="text-xs text-gray-600">Sales</span>
+              </div>
+              <span className="text-xs font-semibold text-gray-800">
+                {salesData?.value?.toLocaleString()}.-
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-gray-800 rounded"></div>
+                <span className="text-xs text-gray-600">Commission</span>
+              </div>
+              <span className="text-xs font-semibold text-gray-800">
+                {commissionData?.value?.toLocaleString()}.-
+              </span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    return null
   }
 
   return (
@@ -353,7 +408,7 @@ function SalesReportPage() {
 
             <div className='mb-4'>
               <p className='text-3xl font-bold text-gray-800'>
-                {chartData.reduce((sum, item) => sum + item.total, 0).toLocaleString()}.-
+                {chartData.reduce((sum, item) => sum + item.sales, 0).toLocaleString()}.-
               </p>
             </div>
 
@@ -368,6 +423,7 @@ function SalesReportPage() {
                     tick={{ fontSize: 12, fill: '#6B7280' }}
                   />
                   <YAxis hide />
+                  <Tooltip content={<CustomTooltip />} cursor={false} />
                   <Bar
                     dataKey="commission"
                     stackId="stack"
@@ -386,7 +442,7 @@ function SalesReportPage() {
               </ResponsiveContainer>
 
               {/* Values below bars - positioned outside chart */}
-              <div className='absolute bottom-0 left-0 right-0 h-8 flex items-center justify-between px-8'>
+              <div className='absolute bottom-0 left-0 right-0 h-8 flex items-center justify-between pl-4 pr-8'>
                 {chartData.map((entry, index) => (
                   <div 
                     key={index} 
@@ -396,7 +452,7 @@ function SalesReportPage() {
                       transformOrigin: 'center center'
                     }}
                   >
-                    <span className='text-xs font-semibold text-gray-800 whitespace-nowrap'>
+                    <span className='text-[12px] font-semibold text-gray-800 whitespace-nowrap'>
                       {formatNumberForChart(entry.total, chartTimeFilter)}
                       {chartTimeFilter !== '1y' ? '.-' : ''}
                     </span>
@@ -457,7 +513,7 @@ function SalesReportPage() {
               {/* Progress Bar */}
               <div className='w-full bg-gray-200 rounded-full h-3 overflow-hidden'>
                 <div
-                  className='bg-gradient-to-r from-gray-800 to-black h-3 rounded-full transition-all duration-1000 ease-out transform origin-left'
+                  className='bg-gradient-to-r from-gray-800 to-orange-600 h-3 rounded-full transition-all duration-1000 ease-out transform origin-left'
                   style={{
                     width: `${Math.min(animatedProgress, 100)}%`,
                     transform: `scaleX(${animatedProgress > 0 ? 1 : 0})`,
@@ -529,7 +585,7 @@ function SalesReportPage() {
         <div className="flex justify-between items-center p-4 ">
           <div className='flex flex-row items-center'>
             <h3 className='font-semibold text-xl text-gray-800'>Total Trips Sold</h3>
-            <span className='px-4 py-1 text-white bg-orange-600 mx-4 rounded-full text-sm'>
+            <span className='px-3 py-1 text-orange-600 mx-4 font-bold rounded-full text-sm'>
               {tripsData.length} Trips
             </span>
           </div>
