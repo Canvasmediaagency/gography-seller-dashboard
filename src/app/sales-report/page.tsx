@@ -47,11 +47,11 @@ function SalesReportPage() {
     const baseAmount = Math.floor(seededRandom(seed) * 50000) + 30000 // 30k-80k base
     const dailyAverage = Math.floor(baseAmount / Math.max(diffDays, 1))
     const totalSales = dailyAverage * diffDays + Math.floor(seededRandom(seed + 1) * 100000)
-    
+
     // Commission rate between 7-12%
     const commissionRate = Math.floor(seededRandom(seed + 2) * 6) + 7 // 7-12%
     const totalCommission = Math.floor(totalSales * (commissionRate / 100))
-    
+
     // Trips sold based on sales amount
     const tripsSold = Math.max(1, Math.floor(totalSales / 100000) + Math.floor(seededRandom(seed + 3) * 3))
 
@@ -67,7 +67,7 @@ function SalesReportPage() {
   const mockData = useMemo(() => {
     return getMockDataForDateRange(dateRange)
   }, [dateRange]) // Only regenerate when dateRange changes
-  
+
   const currentCommission = 45950
   const progressPercentage = (currentCommission / commissionTarget) * 100
 
@@ -113,44 +113,67 @@ function SalesReportPage() {
   const tripsData = [
     {
       id: 1,
-      flag: '🇮🇸',
-      name: '2025 Aurora Trails',
-      location: 'in Iceland',
-      date: '19 - 28 April 2025',
-      seats: 4,
+      image: 'https://www.wildfrontierstravel.com/media/cache/gallery_image/upload/mirror/dhruv-wildfrontierstravel-com/cd0f798d_dreamstimem194748912.jpeg',
+      name: '2025 A Fairytale Journey: Germany-Austria-France',
+      location: 'Europe Multi-Country',
+      date: '15 - 25 May 2025',
+      seats: [
+        { status: 'done' },
+        { status: 'done' },
+        { status: 'cancel' },
+        { status: 'pending' }
+      ],
       totalSeats: 4,
       price: '142,900.-',
       commission: '14,290.-'
     },
     {
       id: 2,
-      flag: '🇮🇹',
+      image: 'https://res-1.cloudinary.com/gorealtravel/image/upload/f_auto,q_auto/v1705507941/production/marketing/itinerary/65a7fa6329c62b000a19983d/marketing_picture/65a7fc5e29c62b000a1999c9/file/berchtesgaden-small.webp',
       name: '2025 Summer in Dolomites',
-      location: 'in Dolomites',
+      location: 'Italy',
       date: '10 - 17 September 2025',
-      seats: 5,
+      seats: [
+        { status: 'done' },
+        { status: 'done' },
+        { status: 'done' },
+        { status: 'pending' },
+        { status: 'pending' }
+      ],
       totalSeats: 5,
       price: '95,000.-',
       commission: '9,500.-'
     },
     {
       id: 3,
-      flag: '🇨🇦',
-      name: '2025 CANADA',
-      location: 'AUTUMN',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiLz_JJqIzUg14AmqqvcPPAnVhHxq5jAcMLQ&s',
+      name: '2025 KENYA & TANZANIA',
+      location: 'East Africa Safari',
       date: '20 - 28 September 2025',
-      seats: 3,
+      seats: [
+        { status: 'done' },
+        { status: 'done' },
+        { status: 'cancel' },
+        { status: 'pending' }
+      ],
       totalSeats: 4,
       price: '125,900.-',
       commission: '12,590.-'
     },
     {
       id: 4,
-      flag: '🇯🇵',
-      name: '2025 Japan Cherry',
-      location: 'in Tokyo',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3kSwVTYLxZyI47s1VqDzGw6Id39kzUHtCMQ&s',
+      name: '2025 Japan Cherry Blossom',
+      location: 'Tokyo & Kyoto',
       date: '15 - 22 April 2025',
-      seats: 2,
+      seats: [
+        { status: 'done' },
+        { status: 'cancel' },
+        { status: 'pending' },
+        { status: 'pending' },
+        { status: 'pending' },
+        { status: 'pending' }
+      ],
       totalSeats: 6,
       price: '89,000.-',
       commission: '8,900.-'
@@ -328,55 +351,54 @@ function SalesReportPage() {
             </div>
 
             {/* Trip List */}
-            <div className='space-y-4'>
-              <h4 className='font-semibold text-gray-800 mb-3'>Top Selling Trips</h4>
-
-              {/* Trip 1 */}
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>1</span>
-                  <span className='text-lg'>🇮🇸</span>
-                  <div>
-                    <p className=' text-gray-800'>2025 Aurora Trails</p>
-                    <p className='text-sm text-gray-600'>in Iceland</p>
-                  </div>
-                </div>
-                <div className='flex items-center gap-4'>
-                  <p className='text-gray-800'>12 people</p>
-                  <p className='text-sm font-semibold text-gray-800'>14,290.-</p>
-                </div>
-              </div>
-
-              {/* Trip 2 */}
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>2</span>
-                  <span className='text-lg'>🇮🇹</span>
-                  <div>
-                    <p className=' text-gray-800'>2025 Summer</p>
-                    <p className='text-sm text-gray-600'>in Dolomites</p>
-                  </div>
-                </div>
-                <div className='flex items-center gap-4'>
-                  <p className='text-gray-800'>8 people</p>
-                  <p className='text-sm font-semibold text-gray-800'>9,500.-</p>
-                </div>
-              </div>
-
-              {/* Trip 3 */}
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
-                  <span className='w-6 h-6 bg-gray-100 rounded text-center text-lg text-gray-800'>3</span>
-                  <span className='text-lg'>🇨🇦</span>
-                  <div>
-                    <p className=' text-gray-800'>2025 CANADA</p>
-                    <p className='text-sm text-gray-600'>AUTUMN</p>
-                  </div>
-                </div>
-                <div className='flex items-center gap-4'>
-                  <p className='text-gray-800'>4 people</p>
-                  <p className='text-sm font-semibold text-gray-800'>7,200.-</p>
-                </div>
+            <div>
+                <h4 className='font-semibold text-gray-800 mb-3'>Top 3 Best-Selling Trips</h4>
+              <div className='flex gap-3'>
+                {[
+                  {
+                    image: "https://www.wildfrontierstravel.com/media/cache/gallery_image/upload/mirror/dhruv-wildfrontierstravel-com/cd0f798d_dreamstimem194748912.jpeg",
+                    name: "2025 Aurora Trails",
+                    location: "in Iceland",
+                    customers: "24",
+                    commission: "14,290.-"
+                  },
+                  {
+                    image: "https://res-1.cloudinary.com/gorealtravel/image/upload/f_auto,q_auto/v1705507941/production/marketing/itinerary/65a7fa6329c62b000a19983d/marketing_picture/65a7fc5e29c62b000a1999c9/file/berchtesgaden-small.webp",
+                    name: "2025 Summer",
+                    location: "in Dolomites",
+                    customers: "8",
+                    commission: "9,500.-"
+                  },
+                  {
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiLz_JJqIzUg14AmqqvcPPAnVhHxq5jAcMLQ&s",
+                    name: "2026 Into the Frozen",
+                    location: "Heart of Baikal",
+                    customers: "4",
+                    commission: "7,200.-"
+                  }
+                ].map((trip, idx) => (
+                  <div key={idx} className='flex-1 border border-gray-200 rounded-lg overflow-hidden'>
+                    <img 
+                      src={trip.image}
+                      alt={trip.name}
+                      className="w-full h-16 object-cover"
+                    />
+                    <div className='p-2'>
+                      <p className='font-bold text-sm text-gray-800 truncate'>{trip.name}</p>
+                      <p className='text-xs text-gray-600 mb-2 truncate'>{trip.location}</p>
+                      <div className='border-t border-gray-100 pt-2'>
+                        <div className='flex justify-between items-center text-xs'>
+                          <span className='text-gray-500'>Customers Sold</span>
+                          <span className='font-semibold text-gray-800'>{trip.customers}</span>
+                        </div>
+                        <div className='flex justify-between items-center text-xs mt-1'>
+                          <span className='text-gray-500'>Commission</span>
+                          <span className='font-semibold text-gray-800'>{trip.commission}</span>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                ))}
               </div>
             </div>
           </div>
@@ -388,7 +410,7 @@ function SalesReportPage() {
         <div className="flex justify-between items-center p-4 ">
           <div className='flex flex-row items-center'>
             <h3 className='font-semibold text-xl text-gray-800'>Total Trips Sold</h3>
-            <span className='px-4 py-1 text-white bg-gray-900 mx-4 rounded-full text-sm'>
+            <span className='px-4 py-1 text-white bg-orange-600 mx-4 rounded-full text-sm'>
               {tripsData.length} Trips
             </span>
           </div>
@@ -403,33 +425,47 @@ function SalesReportPage() {
         </div>
 
         {/* Table */}
-        <div className=" overflow-hidden">
+        <div className="overflow-hidden">
           <table className="w-full">
             {/* Table Header */}
-            <thead className="">
+            <thead>
               <tr>
-                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Trip Name</th>
-                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
-                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
-                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
-                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
+          <th className="text-left px-4 py-2 text-md font-normal text-gray-700 w-[360px]">Trip Name</th>
+          <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
+          <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
+          <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
+          <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
               </tr>
             </thead>
 
             {/* Table Body */}
-            <tbody className="">
+            <tbody>
               {tripsData.map((trip) => (
-                <tr key={trip.id} className="">
-                  {/* Trip Name */}
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-lg">{trip.flag}</span>
-                      <div>
-                        <p className=" text-gray-800">{trip.name}</p>
-                        <p className="text-sm text-gray-600">{trip.location}</p>
-                      </div>
-                    </div>
-                  </td>
+              <tr key={trip.id}>
+                {/* Trip Name */}
+                <td className="p-4 w-[260px]">
+                <div className="flex items-center gap-3">
+                  <img 
+                  src={trip.image} 
+                  alt={trip.name}
+                  className="w-24 h-16 rounded-lg object-cover flex-shrink-0"
+                  />
+                  <div className="truncate max-w-[300px]">
+                  <p
+                    className="text-gray-800 truncate"
+                    title={trip.name}
+                  >
+                    {trip.name}
+                  </p>
+                  <p
+                    className="text-sm text-gray-600 truncate"
+                    title={trip.location}
+                  >
+                    {trip.location}
+                  </p>
+                  </div>
+                </div>
+                </td>
 
                   {/* Date */}
                   <td className="p-4">
@@ -444,10 +480,19 @@ function SalesReportPage() {
                           <div key={rowIdx} className="flex gap-1">
                             {Array.from({ length: Math.min(5, trip.totalSeats - rowIdx * 5) }).map((_, colIdx) => {
                               const seatIdx = rowIdx * 5 + colIdx
+                              const seat = trip.seats[seatIdx]
+                              const getStatusColor = (status: string) => {
+                                switch(status) {
+                                  case 'done': return 'bg-orange-600'
+                                  case 'cancel': return 'bg-gray-800'
+                                  case 'pending': return 'bg-gray-300'
+                                  default: return 'bg-gray-300'
+                                }
+                              }
                               return (
                                 <div
                                   key={seatIdx}
-                                  className={`w-3 h-3 rounded-[3px] ${seatIdx < trip.seats ? 'bg-gray-800' : 'bg-gray-300'}`}
+                                  className={`w-3 h-3 rounded-[3px] ${getStatusColor(seat?.status)}`}
                                 />
                               )
                             })}

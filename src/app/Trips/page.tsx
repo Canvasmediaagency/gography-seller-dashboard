@@ -369,7 +369,6 @@ function TripsPage() {
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Sold</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Commission</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Share</th>
-                  <th className="px-4 py-3 text-center text-sm  text-gray-700">Info</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -467,7 +466,7 @@ function TripsPage() {
                       </td>
 
                       {/* Info Button */}
-                      <td className="px-4 py-4 text-center">
+                      <td className="pr-2 py-4 text-center">
                         <div className="relative group">
                           <button
                             className='px-2 py-1 hover:cursor-pointer text-gray-600 hover:text-gray-800'
@@ -475,7 +474,7 @@ function TripsPage() {
                           >
                             <BsInfoCircle className='inline text-xl' />
                           </button>
-                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 z-10 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity bg-gray-900/80 text-white text-xs rounded px-3 py-1 whitespace-nowrap shadow-lg">
+                          <div className="absolute left-[2px] -translate-x-1/2 bottom-full mb-1 z-10 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity bg-gray-900/40 text-white text-xs rounded px-3 py-1 whitespace-nowrap shadow-lg">
                             More Info
                           </div>
                         </div>
