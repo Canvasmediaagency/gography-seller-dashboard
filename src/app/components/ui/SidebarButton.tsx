@@ -13,7 +13,7 @@ function SidebarButton({ icon, label, isActive = false, href, onClick }: Sidebar
   const buttonClass = `
     w-full flex items-center gap-3 px-4 py-3 rounded-full text-left transition-all duration-200 transform
     ${isActive 
-      ? 'bg-black text-white shadow-lg shadow-black/20 scale-[0.98] translate-y-[1px]' 
+      ? 'bg-gray-800 text-white shadow-lg shadow-black/20 scale-[0.98] translate-y-[1px]' 
       : 'text-gray-700 hover:bg-gray-100 hover:scale-[1.02] active:scale-[0.98] active:translate-y-[1px]'
     }
   `

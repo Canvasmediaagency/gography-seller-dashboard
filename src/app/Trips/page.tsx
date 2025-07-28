@@ -7,6 +7,8 @@ import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { PiListDashesBold } from "react-icons/pi";
 import { FaUser } from "react-icons/fa";
 import { toast, Toaster } from 'sonner';
+import { BsInfoCircle } from "react-icons/bs";
+import TripInfoModal from '../../components/TripInfoModal';
 
 interface Trip {
   id: string
@@ -30,6 +32,8 @@ function TripsPage() {
   const [activeFilter, setActiveFilter] = useState<'all' | 'sold' | 'unsold'>('all')
   const [sortBy, setSortBy] = useState<'default' | 'commission' | 'travel_date'>('default')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     fetchTrips()
@@ -123,9 +127,21 @@ function TripsPage() {
         document.body.removeChild(textArea)
         toast.success('Share link copied to clipboard!')
       } else {
-        toast.error('Failed to copy link')
+        toast.error('Failed to copy share link')
       }
     }
+  }
+
+  // Handle modal open
+  const openModal = (trip: Trip) => {
+    setSelectedTrip(trip)
+    setIsModalOpen(true)
+  }
+
+  // Handle modal close
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedTrip(null)
   }
 
   // Hardcode seller ID for now (later from session/login)
@@ -352,7 +368,8 @@ function TripsPage() {
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Seats</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Sold</th>
                   <th className="px-4 py-3 text-center text-sm  text-gray-700">Commission</th>
-                  <th className="px-4 py-3 text-center text-sm  text-gray-700"></th>
+                  <th className="px-4 py-3 text-center text-sm  text-gray-700">Share</th>
+                  <th className="px-4 py-3 text-center text-sm  text-gray-700">Info</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -448,6 +465,21 @@ function TripsPage() {
                           <span>Share</span>
                         </button>
                       </td>
+
+                      {/* Info Button */}
+                      <td className="px-4 py-4 text-center">
+                        <div className="relative group">
+                          <button
+                            className='px-2 py-1 hover:cursor-pointer text-gray-600 hover:text-gray-900'
+                            onClick={() => openModal(trip)}
+                          >
+                            <BsInfoCircle className='inline text-xl' />
+                          </button>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 z-10 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity bg-gray-900/80 text-white text-xs rounded px-3 py-1 whitespace-nowrap shadow-lg">
+                            More Info
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                   )
                 })}
@@ -481,12 +513,12 @@ function TripsPage() {
                     )}
 
                     {/* Price Badge */}
-                    <div className="absolute bottom-2 right-2 bg-gray-900/20 rounded-xl text-white px-3 py-1 ">
+                    <div className="absolute bottom-2 right-2 bg-gray-900/20 rounded-md text-white px-3 py-1 ">
                       <div className="text-sm  font-bold text-right">Per person</div>
                       <div className="text-3xl font-bold text-right">{formatPrice(trip.price_per_person)}</div>
                     </div>
                   </div>
-                    
+
                   {/* Trip Info */}
                   <div className="px-4 pt-0 py-4 flex flex-col h-full">
                     {/* Trip Title */}
@@ -536,13 +568,26 @@ function TripsPage() {
                     </div>
 
                     {/* Share Button */}
-                    <button
+                    <div className='w-full px-2 py-2 rounded-lg transition-colors flex items-center justify-between gap-2 bg-black text-white  cursor-alias'>
+                      <button
                       onClick={() => copyShareLink(trip)}
-                      className="w-full py-3 rounded-lg transition-colors flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 cursor-pointer"
-                    >
+                      className="w-full rounded-md py-2 transition-colors flex items-center justify-center gap-2  text-white  cursor-alias"
+                      >
                       <ImLink className='text-xl' />
                       <span>Share Trip</span>
-                    </button>
+                      </button>
+                        <div className="relative group">
+                        <button
+                          className='px-2 hover:cursor-pointer'
+                          onClick={() => openModal(trip)}
+                        >
+                          <span><BsInfoCircle className='inline text-xl' /></span>
+                        </button>
+                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 z-10 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity bg-gray-900/80 text-white text-xs rounded px-3 py-1 whitespace-nowrap shadow-lg">
+                          More Info
+                        </div>
+                        </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -568,6 +613,13 @@ function TripsPage() {
 
       {/* Toaster for notifications */}
       <Toaster />
+
+      {/* Trip Info Modal */}
+      <TripInfoModal
+        isOpen={isModalOpen}
+        trip={selectedTrip}
+        onClose={closeModal}
+      />
     </div>
   )
 }
