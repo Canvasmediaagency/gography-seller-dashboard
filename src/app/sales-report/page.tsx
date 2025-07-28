@@ -13,6 +13,9 @@ function SalesReportPage() {
 
   // Date Range State - เริ่มต้นเป็น undefined เพื่อแสดง "All"
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
+  
+  // Total Trips Time Filter State
+  const [tripsTimeFilter, setTripsTimeFilter] = useState('6m')
 
   // Generate mock data based on date range using useMemo to prevent constant re-generation
   const getMockDataForDateRange = (dateRange: DateRange | undefined) => {
@@ -110,75 +113,104 @@ function SalesReportPage() {
     { month: 'May', value: 9200, fullMonth: 'May' }
   ]
 
-  const tripsData = [
-    {
-      id: 1,
-      image: 'https://www.wildfrontierstravel.com/media/cache/gallery_image/upload/mirror/dhruv-wildfrontierstravel-com/cd0f798d_dreamstimem194748912.jpeg',
-      name: '2025 A Fairytale Journey: Germany-Austria-France',
-      location: 'Europe Multi-Country',
-      date: '15 - 25 May 2025',
-      seats: [
-        { status: 'done' },
-        { status: 'done' },
-        { status: 'cancel' },
-        { status: 'pending' }
-      ],
-      totalSeats: 4,
-      price: '142,900.-',
-      commission: '14,290.-'
-    },
-    {
-      id: 2,
-      image: 'https://res-1.cloudinary.com/gorealtravel/image/upload/f_auto,q_auto/v1705507941/production/marketing/itinerary/65a7fa6329c62b000a19983d/marketing_picture/65a7fc5e29c62b000a1999c9/file/berchtesgaden-small.webp',
-      name: '2025 Summer in Dolomites',
-      location: 'Italy',
-      date: '10 - 17 September 2025',
-      seats: [
-        { status: 'done' },
-        { status: 'done' },
-        { status: 'done' },
-        { status: 'pending' },
-        { status: 'pending' }
-      ],
-      totalSeats: 5,
-      price: '95,000.-',
-      commission: '9,500.-'
-    },
-    {
-      id: 3,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiLz_JJqIzUg14AmqqvcPPAnVhHxq5jAcMLQ&s',
-      name: '2025 KENYA & TANZANIA',
-      location: 'East Africa Safari',
-      date: '20 - 28 September 2025',
-      seats: [
-        { status: 'done' },
-        { status: 'done' },
-        { status: 'cancel' },
-        { status: 'pending' }
-      ],
-      totalSeats: 4,
-      price: '125,900.-',
-      commission: '12,590.-'
-    },
-    {
-      id: 4,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3kSwVTYLxZyI47s1VqDzGw6Id39kzUHtCMQ&s',
-      name: '2025 Japan Cherry Blossom',
-      location: 'Tokyo & Kyoto',
-      date: '15 - 22 April 2025',
-      seats: [
-        { status: 'done' },
-        { status: 'cancel' },
-        { status: 'pending' },
-        { status: 'pending' },
-        { status: 'pending' },
-        { status: 'pending' }
-      ],
-      totalSeats: 6,
-      price: '89,000.-',
-      commission: '8,900.-'
+  // Generate filtered trips data based on time filter
+  const getFilteredTripsData = (filter: string) => {
+    const allTrips = [
+      {
+        id: 1,
+        image: 'https://www.wildfrontierstravel.com/media/cache/gallery_image/upload/mirror/dhruv-wildfrontierstravel-com/cd0f798d_dreamstimem194748912.jpeg',
+        name: '2025 A Fairytale Journey: Germany-Austria-France',
+        location: 'Europe Multi-Country',
+        date: '15 - 25 May 2025',
+        seats: [
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'cancel' },
+          { status: 'pending' }
+        ],
+        totalSeats: 4,
+        price: '142,900.-',
+        commission: '14,290.-'
+      },
+      {
+        id: 2,
+        image: 'https://res-1.cloudinary.com/gorealtravel/image/upload/f_auto,q_auto/v1705507941/production/marketing/itinerary/65a7fa6329c62b000a19983d/marketing_picture/65a7fc5e29c62b000a1999c9/file/berchtesgaden-small.webp',
+        name: '2025 Summer in Dolomites',
+        location: 'Italy',
+        date: '10 - 17 September 2025',
+        seats: [
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'pending' },
+          { status: 'pending' }
+        ],
+        totalSeats: 5,
+        price: '95,000.-',
+        commission: '9,500.-'
+      },
+      {
+        id: 3,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiLz_JJqIzUg14AmqqvcPPAnVhHxq5jAcMLQ&s',
+        name: '2025 KENYA & TANZANIA',
+        location: 'East Africa Safari',
+        date: '20 - 28 September 2025',
+        seats: [
+          { status: 'done' },
+          { status: 'done' },
+          { status: 'cancel' },
+          { status: 'pending' }
+        ],
+        totalSeats: 4,
+        price: '125,900.-',
+        commission: '12,590.-'
+      },
+      {
+        id: 4,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3kSwVTYLxZyI47s1VqDzGw6Id39kzUHtCMQ&s',
+        name: '2025 Japan Cherry Blossom',
+        location: 'Tokyo & Kyoto',
+        date: '15 - 22 April 2025',
+        seats: [
+          { status: 'done' },
+          { status: 'cancel' },
+          { status: 'pending' },
+          { status: 'pending' },
+          { status: 'pending' },
+          { status: 'pending' }
+        ],
+        totalSeats: 6,
+        price: '89,000.-',
+        commission: '8,900.-'
+      },
+      
+    ]
+
+    // Filter trips based on selected time period
+    switch(filter) {
+      case '1m':
+        return allTrips.slice(0, 1) // Show only 2 trips for 1 month
+      case '3m':
+        return allTrips.slice(0, 2) // Show 4 trips for 3 months
+      case '6m':
+        return allTrips // Show all trips for 6 months
+      case '1y':
+        return allTrips // Show all trips for 1 year
+      default:
+        return allTrips
     }
-  ]
+  }
+
+  // Use filtered trips data
+  const tripsData = useMemo(() => {
+    return getFilteredTripsData(tripsTimeFilter)
+  }, [tripsTimeFilter])
+
+  // Handle trips time filter change
+  const handleTripsTimeFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTripsTimeFilter(event.target.value)
+    console.log('Trips time filter changed to:', event.target.value)
+  }
 
   return (
     <div className='flex flex-col'>
@@ -415,10 +447,14 @@ function SalesReportPage() {
             </span>
           </div>
           <div className='flex items-center gap-2'>
-            <select className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="6m">6 months</option>
-              <option value="1m">1 months</option>
+            <select 
+              className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={tripsTimeFilter}
+              onChange={handleTripsTimeFilterChange}
+            >
+              <option value="1m">1 month</option>
               <option value="3m">3 months</option>
+              <option value="6m">6 months</option>
               <option value="1y">1 year</option>
             </select>
           </div>
