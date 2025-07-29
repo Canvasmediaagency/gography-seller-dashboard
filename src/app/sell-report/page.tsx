@@ -3,6 +3,15 @@ import React, { useState } from 'react'
 
 function SellReportPage() {
   const [selectedMonth, setSelectedMonth] = useState('June 2025')
+  const [expandedTrip, setExpandedTrip] = useState<number | null>(0) // Default to first trip (index 0) expanded
+
+  const toggleTrip = (index: number) => {
+    if (expandedTrip === index) {
+      setExpandedTrip(null) // Close if clicking on already expanded trip
+    } else {
+      setExpandedTrip(index) // Open the clicked trip (closes others automatically)
+    }
+  }
 
   // Mock data for summary cards
   const summaryData = {
@@ -58,43 +67,92 @@ function SellReportPage() {
       name: "2025 Aurora Trails in Iceland",
       price: 1200000,
       status: "Active",
-      customers: { current: 720000, target: 7200, seats: 7 }
+      totalSold: 720000,
+      target: 7200,
+      availableSeats: 7,
+      topSellers: [
+        { name: "Natthawat Mongkoldee", sold: 3, amount: 360000, image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6" },
+        { name: "Siriporn Simaroj", sold: 2, amount: 240000, image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D" },
+        { name: "Rittisak Wongworakarn", sold: 2, amount: 240000, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" }
+      ]
     },
     {
-      flag: "🇮🇹",
+      flag: "🇮🇹", 
       name: "2025 Summer in Dolomites",
       price: 1200000,
-      status: "Active"
+      status: "Active",
+      totalSold: 840000,
+      target: 6000,
+      availableSeats: 5,
+      topSellers: [
+        { name: "Siriporn Simaroj", sold: 4, amount: 480000, image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D" },
+        { name: "Natthawat Mongkoldee", sold: 3, amount: 360000, image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6" }
+      ]
     },
     {
       flag: "🇨🇦",
-      name: "2025 CANADA AUTUMN",
+      name: "2025 CANADA AUTUMN", 
       price: 1200000,
-      status: "Active"
+      status: "Active",
+      totalSold: 960000,
+      target: 8000,
+      availableSeats: 8,
+      topSellers: [
+        { name: "Rittisak Wongworakarn", sold: 5, amount: 600000, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" },
+        { name: "Artisorn Wonprasit", sold: 3, amount: 360000, image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" }
+      ]
     },
     {
       flag: "🇷🇺",
       name: "2026 Into the Frozen Heart of Baikal",
       price: 960000,
-      status: "Active"
+      status: "Active",
+      totalSold: 480000,
+      target: 5000,
+      availableSeats: 5,
+      topSellers: [
+        { name: "Natthawat Mongkoldee", sold: 3, amount: 288000, image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6" },
+        { name: "Phitchaya Tinsuraron", sold: 2, amount: 192000, image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" }
+      ]
     },
     {
       flag: "🇺🇸",
       name: "2025 Utah's Red Rock Odyssey",
       price: 700000,
-      status: "Active"
+      status: "Active",
+      totalSold: 420000,
+      target: 6000,
+      availableSeats: 6,
+      topSellers: [
+        { name: "Siriporn Simaroj", sold: 4, amount: 280000, image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D" },
+        { name: "Atiporn Kongkla", sold: 2, amount: 140000, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" }
+      ]
     },
     {
       flag: "🇰🇪",
       name: "2025 KENYA & TANZANIA",
       price: 560000,
-      status: "Active"
+      status: "Active",
+      totalSold: 336000,
+      target: 4000,
+      availableSeats: 4,
+      topSellers: [
+        { name: "Rittisak Wongworakarn", sold: 3, amount: 168000, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" },
+        { name: "Artisorn Wonprasit", sold: 3, amount: 168000, image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" }
+      ]
     },
     {
       flag: "🇩🇪",
       name: "2025 A Fairytale Journey...",
       price: 480000,
-      status: "Active"
+      status: "Active",
+      totalSold: 240000,
+      target: 5000,
+      availableSeats: 5,
+      topSellers: [
+        { name: "Natthawat Mongkoldee", sold: 2, amount: 96000, image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6" },
+        { name: "Phitchaya Tinsuraron", sold: 3, amount: 144000, image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" }
+      ]
     }
   ]
 
@@ -257,22 +315,71 @@ function SellReportPage() {
 
           <div className='space-y-4'>
             {tripPerformance.map((trip, index) => (
-              <div key={index} className='flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:bg-gray-50'>
-                <span className='text-2xl'>{trip.flag}</span>
-                <div className='flex-1'>
-                  <p className='font-semibold text-gray-800 text-sm mb-1'>{trip.name}</p>
-                  {trip.customers && (
-                    <div className='flex items-center gap-4 text-xs text-gray-600'>
-                      <span>Current: {trip.customers.current.toLocaleString()}</span>
-                      <span>Target: {trip.customers.target.toLocaleString()}</span>
-                      <span>Seats: {trip.customers.seats}</span>
+              <div key={index} className='border border-gray-100 rounded-lg hover:bg-gray-50'>
+                {/* Trip Header - Always Visible */}
+                <div 
+                  className='flex items-center gap-3 p-4 cursor-pointer'
+                  onClick={() => toggleTrip(index)}
+                >
+                  <span className='text-xl'>{trip.flag}</span>
+                  <div className='flex-1'>
+                    <p className='font-semibold text-gray-800 text-sm mb-1'>{trip.name}</p>
+                  </div>
+                  <div className='text-right flex items-center gap-3'>
+                    <p className='font-bold text-gray-800 text-lg'>{trip.price.toLocaleString()}</p>
+                    {/* Accordion Arrow */}
+                    <div className='text-gray-400 transition-transform duration-200'>
+                      {expandedTrip === index ? (
+                        <svg className="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
-                <div className='text-right'>
-                  <p className='font-bold text-gray-800 text-lg'>{trip.price.toLocaleString()}</p>
-                  <p className='text-xs text-gray-600'>{trip.status}</p>
-                </div>
+                
+                {/* Top Sellers - Collapsible Content */}
+                {expandedTrip === index && (
+                  <div className='px-4 pb-4 border-t border-gray-100'>
+                    <div className='mt-3'>
+                      <p className='text-[14px] text-gray-600 mb-2'>Top Sellers:</p>
+                      <div className='space-y-2'>
+                        {trip.topSellers.map((seller, sellerIndex) => (
+                          <div key={sellerIndex} className='bg-white border border-gray-100 rounded p-3 shadow-sm'>
+                            <div className='flex items-center gap-3 mb-2'>
+                              <div className='w-8 h-8 rounded-full overflow-hidden flex-shrink-0'>
+                                <img
+                                  src={seller.image}
+                                  alt={seller.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <p className='text-sm font-semibold text-gray-800'>{sellerIndex + 1}. {seller.name}</p>
+                            </div>
+                            <div className='grid grid-cols-3 gap-3 text-[14px] text-gray-600'>
+                              <div className='flex flex-col'>
+                                <span className='text-gray-500 mb-1 '>Sales</span>
+                                <span className='font-semibold text-gray-800'>{seller.amount.toLocaleString()}</span>
+                              </div>
+                              <div className='flex flex-col'>
+                                <span className='text-gray-500 mb-1'>Commission</span>
+                                <span className='font-semibold text-orange-600'>{(seller.amount * 0.1).toLocaleString()}</span>
+                              </div>
+                              <div className='flex flex-col'>
+                                <span className='text-gray-500 mb-1'>Customers</span>
+                                <span className='font-semibold text-gray-800'>{seller.sold}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
