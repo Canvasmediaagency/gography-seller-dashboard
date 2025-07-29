@@ -147,7 +147,7 @@ function SellReportPage() {
         commission: 115000,
         totalTrips: 14,
         totalTourMembers: 176,
-        image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+        image: "data:image/jpeg;base64,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"
       },
       {
         rank: 3,
@@ -164,28 +164,28 @@ function SellReportPage() {
   // Mock data for additional staff by month
   const additionalStaffByMonth = {
     'June 2025': [
-      { rank: 4, name: "Siriporn Simaroj", sales: 780000, commission: 78000, totalTrips: 9, totalTourMembers: 115 },
-      { rank: 5, name: "Artisorn Wonprasit", sales: 650000, commission: 65000, totalTrips: 8, totalTourMembers: 98 },
-      { rank: 6, name: "Phitchaya Tinsuraron", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 78 },
-      { rank: 7, name: "Atiporn Kongkla", sales: 480000, commission: 48000, totalTrips: 5, totalTourMembers: 65 }
+      { rank: 4, name: "Sasithorn Charoensuk", sales: 780000, commission: 78000, totalTrips: 9, totalTourMembers: 115, image: "https://randomuser.me/api/portraits/women/44.jpg" },
+      { rank: 5, name: "Pongsakorn Srisuk", sales: 650000, commission: 65000, totalTrips: 8, totalTourMembers: 98, image: "https://randomuser.me/api/portraits/men/32.jpg" },
+      { rank: 6, name: "Nattapong Kittisak", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 78, image: "https://randomuser.me/api/portraits/men/45.jpg" },
+      { rank: 7, name: "Kamonchanok Rattanapong", sales: 480000, commission: 48000, totalTrips: 5, totalTourMembers: 65, image: "https://randomuser.me/api/portraits/women/65.jpg" }
     ],
     'May 2025': [
-      { rank: 4, name: "Artisorn Wonprasit", sales: 720000, commission: 72000, totalTrips: 8, totalTourMembers: 105 },
-      { rank: 5, name: "Phitchaya Tinsuraron", sales: 580000, commission: 58000, totalTrips: 7, totalTourMembers: 89 },
-      { rank: 6, name: "Atiporn Kongkla", sales: 450000, commission: 45000, totalTrips: 5, totalTourMembers: 68 },
-      { rank: 7, name: "Natthawat Mongkoldee", sales: 350000, commission: 35000, totalTrips: 4, totalTourMembers: 52 }
+      { rank: 4, name: "Pimchanok Sutham", sales: 720000, commission: 72000, totalTrips: 8, totalTourMembers: 105, image: "https://randomuser.me/api/portraits/women/68.jpg" },
+      { rank: 5, name: "Worawit Chaiyaporn", sales: 580000, commission: 58000, totalTrips: 7, totalTourMembers: 89, image: "https://randomuser.me/api/portraits/men/51.jpg" },
+      { rank: 6, name: "Chalita Phongchai", sales: 450000, commission: 45000, totalTrips: 5, totalTourMembers: 68, image: "https://randomuser.me/api/portraits/women/52.jpg" },
+      { rank: 7, name: "Nattawut Suksawat", sales: 350000, commission: 35000, totalTrips: 4, totalTourMembers: 52, image: "https://randomuser.me/api/portraits/men/53.jpg" }
     ],
     'April 2025': [
-      { rank: 4, name: "Siriporn Simaroj", sales: 850000, commission: 85000, totalTrips: 10, totalTourMembers: 125 },
-      { rank: 5, name: "Phitchaya Tinsuraron", sales: 680000, commission: 68000, totalTrips: 8, totalTourMembers: 95 },
-      { rank: 6, name: "Atiporn Kongkla", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 75 },
-      { rank: 7, name: "Artisorn Wonprasit", sales: 420000, commission: 42000, totalTrips: 5, totalTourMembers: 58 }
+      { rank: 4, name: "Sudarat Wongchai", sales: 850000, commission: 85000, totalTrips: 10, totalTourMembers: 125, image: "https://randomuser.me/api/portraits/women/77.jpg" },
+      { rank: 5, name: "Kittipong Raksakul", sales: 680000, commission: 68000, totalTrips: 8, totalTourMembers: 95, image: "https://randomuser.me/api/portraits/men/77.jpg" },
+      { rank: 6, name: "Narumon Srisuwan", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 75, image: "https://randomuser.me/api/portraits/women/81.jpg" },
+      { rank: 7, name: "Preecha Charoen", sales: 420000, commission: 42000, totalTrips: 5, totalTourMembers: 58, image: "https://randomuser.me/api/portraits/men/81.jpg" }
     ],
     'March 2025': [
-      { rank: 4, name: "Natthawat Mongkoldee", sales: 750000, commission: 75000, totalTrips: 9, totalTourMembers: 110 },
-      { rank: 5, name: "Rittisak Wongworakarn", sales: 620000, commission: 62000, totalTrips: 7, totalTourMembers: 88 },
-      { rank: 6, name: "Atiporn Kongkla", sales: 480000, commission: 48000, totalTrips: 6, totalTourMembers: 72 },
-      { rank: 7, name: "Siriporn Simaroj", sales: 380000, commission: 38000, totalTrips: 4, totalTourMembers: 55 }
+      { rank: 4, name: "Nattida Kongsuwan", sales: 750000, commission: 75000, totalTrips: 9, totalTourMembers: 110, image: "https://randomuser.me/api/portraits/women/90.jpg" },
+      { rank: 5, name: "Surasak Sittichai", sales: 620000, commission: 62000, totalTrips: 7, totalTourMembers: 88, image: "https://randomuser.me/api/portraits/men/90.jpg" },
+      { rank: 6, name: "Piyaporn Suksri", sales: 480000, commission: 48000, totalTrips: 6, totalTourMembers: 72, image: "https://randomuser.me/api/portraits/women/91.jpg" },
+      { rank: 7, name: "Chatchai Wongdee", sales: 380000, commission: 38000, totalTrips: 4, totalTourMembers: 55, image: "https://randomuser.me/api/portraits/men/91.jpg" }
     ]
   }
 
@@ -365,7 +365,8 @@ function SellReportPage() {
               </div>
               <p className='font-bold text-xs text-gray-800 mb-1 truncate'>{topPerformers[1].name}</p>
               <p className='text-xs text-gray-800 mb-1'>Sales: {topPerformers[1].sales.toLocaleString()}</p>
-              <p className='text-xs text-gray-800 mb-2'>Commission: {topPerformers[1].commission.toLocaleString()}</p>
+              <p className='text-xs text-gray-800'>Commission: </p>
+              <p className='text-xs text-gray-800 mb-2'>{topPerformers[1].commission.toLocaleString()}</p>
               <div className='flex items-center justify-center gap-1'>
                 <span className='text-xs bg-gray-100 text-gray-800 px-1 py-1 rounded-full'>🌎 {topPerformers[1].totalTrips}</span>
                 <span className='text-xs bg-orange-100 text-orange-600 px-1 py-1 rounded-full'>👥 {topPerformers[1].totalTourMembers}</span>
@@ -424,9 +425,32 @@ function SellReportPage() {
           <div className='space-y-3'>
             {additionalStaff.map((staff) => (
               <div key={staff.rank} className='flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg'>
-                <div className='w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center'>
+                <div className=' flex items-center justify-center'>
                   <span className='text-sm font-bold text-gray-600'>{staff.rank}</span>
                 </div>
+                
+                {/* เพิ่มรูปหลัง ranking */}
+                <div className='w-10 h-10 rounded-full overflow-hidden flex-shrink-0'>
+                  <img
+                    src={staff.image}
+                    alt={staff.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = target.nextElementSibling as HTMLElement;
+                      if (fallback) {
+                        fallback.style.display = 'flex';
+                      }
+                    }}
+                  />
+                  <div className='w-full h-full bg-gray-800 flex items-center justify-center' style={{display: 'none'}}>
+                    <span className='text-orange-600 font-bold text-sm'>
+                      {staff.name.charAt(0)}
+                    </span>
+                  </div>
+                </div>
+                
                 <div className='flex-1'>
                   <p className='font-semibold text-gray-800 text-sm'>{staff.name}</p>
                 </div>
@@ -490,7 +514,20 @@ function SellReportPage() {
                                   src={seller.image}
                                   alt={seller.name}
                                   className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    const fallback = target.nextElementSibling as HTMLElement;
+                                    if (fallback) {
+                                      fallback.style.display = 'flex';
+                                    }
+                                  }}
                                 />
+                                <div className='w-full h-full bg-gray-800 flex items-center justify-center' style={{display: 'none'}}>
+                                  <span className='text-orange-600 font-bold text-xs'>
+                                    {seller.name.charAt(0)}
+                                  </span>
+                                </div>
                               </div>
                               <p className='text-sm font-semibold text-gray-800'>{sellerIndex + 1}. {seller.name}</p>
                             </div>
