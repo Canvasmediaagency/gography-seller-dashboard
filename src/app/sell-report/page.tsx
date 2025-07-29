@@ -13,52 +13,186 @@ function SellReportPage() {
     }
   }
 
-  // Mock data for summary cards
-  const summaryData = {
-    totalTeamSales: 4500000,
-    totalBranchCommission: 450000,
-    teamMembersServed: 37,
-    totalBranchTours: 115
+  // Mock data for summary cards by month
+  const summaryDataByMonth = {
+    'June 2025': {
+      totalTeamSales: 4500000,
+      totalBranchCommission: 450000,
+      teamMembersServed: 37,
+      totalBranchTours: 115
+    },
+    'May 2025': {
+      totalTeamSales: 3800000,
+      totalBranchCommission: 380000,
+      teamMembersServed: 32,
+      totalBranchTours: 98
+    },
+    'April 2025': {
+      totalTeamSales: 4200000,
+      totalBranchCommission: 420000,
+      teamMembersServed: 35,
+      totalBranchTours: 105
+    },
+    'March 2025': {
+      totalTeamSales: 3600000,
+      totalBranchCommission: 360000,
+      teamMembersServed: 29,
+      totalBranchTours: 92
+    }
   }
 
-  // Mock data for top performers
-  const topPerformers = [
-    {
-      rank: 1,
-      name: "Natthawat Mongkoldee",
-      sales: 1580000,
-      commission: 158000,
-      totalTrips: 18,
-      totalTourMembers: 245,
-      image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6"
-    },
-    {
-      rank: 2,
-      name: "Siriporn Simaroj",
-      sales: 1250000,
-      commission: 125000,
-      totalTrips: 15,
-      totalTourMembers: 189,
-      image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D"
-    },
-    {
-      rank: 3,
-      name: "Rittisak Wongworakarn",
-      sales: 1230490,
-      commission: 123049,
-      totalTrips: 12,
-      totalTourMembers: 156,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-    }
-  ]
+  // Mock data for top performers by month
+  const topPerformersByMonth = {
+    'June 2025': [
+      {
+        rank: 1,
+        name: "Natthawat Mongkoldee",
+        sales: 1580000,
+        commission: 158000,
+        totalTrips: 18,
+        totalTourMembers: 245,
+        image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6"
+      },
+      {
+        rank: 2,
+        name: "Siriporn Simaroj",
+        sales: 1250000,
+        commission: 125000,
+        totalTrips: 15,
+        totalTourMembers: 189,
+        image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        rank: 3,
+        name: "Rittisak Wongworakarn",
+        sales: 1230490,
+        commission: 123049,
+        totalTrips: 12,
+        totalTourMembers: 156,
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      }
+    ],
+    'May 2025': [
+      {
+        rank: 1,
+        name: "Siriporn Simaroj",
+        sales: 1420000,
+        commission: 142000,
+        totalTrips: 16,
+        totalTourMembers: 210,
+        image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        rank: 2,
+        name: "Rittisak Wongworakarn",
+        sales: 1180000,
+        commission: 118000,
+        totalTrips: 14,
+        totalTourMembers: 168,
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      },
+      {
+        rank: 3,
+        name: "Natthawat Mongkoldee",
+        sales: 1050000,
+        commission: 105000,
+        totalTrips: 11,
+        totalTourMembers: 142,
+        image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6"
+      }
+    ],
+    'April 2025': [
+      {
+        rank: 1,
+        name: "Rittisak Wongworakarn",
+        sales: 1650000,
+        commission: 165000,
+        totalTrips: 19,
+        totalTourMembers: 258,
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      },
+      {
+        rank: 2,
+        name: "Natthawat Mongkoldee",
+        sales: 1380000,
+        commission: 138000,
+        totalTrips: 15,
+        totalTourMembers: 195,
+        image: "https://preview.redd.it/x6y3d49gnwr91.jpg?auto=webp&s=5c0f794837d70937b905925328923336af0d37b6"
+      },
+      {
+        rank: 3,
+        name: "Artisorn Wonprasit",
+        sales: 1120000,
+        commission: 112000,
+        totalTrips: 13,
+        totalTourMembers: 165,
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      }
+    ],
+    'March 2025': [
+      {
+        rank: 1,
+        name: "Artisorn Wonprasit",
+        sales: 1320000,
+        commission: 132000,
+        totalTrips: 17,
+        totalTourMembers: 198,
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      },
+      {
+        rank: 2,
+        name: "Phitchaya Tinsuraron",
+        sales: 1150000,
+        commission: 115000,
+        totalTrips: 14,
+        totalTourMembers: 176,
+        image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+      },
+      {
+        rank: 3,
+        name: "Siriporn Simaroj",
+        sales: 980000,
+        commission: 98000,
+        totalTrips: 12,
+        totalTourMembers: 148,
+        image: "https://images.unsplash.com/photo-1515077678510-ce3bdf418862?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JpbHN8ZW58MHx8MHx8fDA%3D"
+      }
+    ]
+  }
 
-  // Mock data for additional staff
-  const additionalStaff = [
-    { rank: 4, name: "Siriporn Simaroj", sales: 780000, commission: 78000, totalTrips: 9, totalTourMembers: 115 },
-    { rank: 5, name: "Artisorn Wonprasit", sales: 650000, commission: 65000, totalTrips: 8, totalTourMembers: 98 },
-    { rank: 6, name: "Phitchaya Tinsuraron", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 78 },
-    { rank: 7, name: "Atiporn Kongkla", sales: 480000, commission: 48000, totalTrips: 5, totalTourMembers: 65 }
-  ]
+  // Mock data for additional staff by month
+  const additionalStaffByMonth = {
+    'June 2025': [
+      { rank: 4, name: "Siriporn Simaroj", sales: 780000, commission: 78000, totalTrips: 9, totalTourMembers: 115 },
+      { rank: 5, name: "Artisorn Wonprasit", sales: 650000, commission: 65000, totalTrips: 8, totalTourMembers: 98 },
+      { rank: 6, name: "Phitchaya Tinsuraron", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 78 },
+      { rank: 7, name: "Atiporn Kongkla", sales: 480000, commission: 48000, totalTrips: 5, totalTourMembers: 65 }
+    ],
+    'May 2025': [
+      { rank: 4, name: "Artisorn Wonprasit", sales: 720000, commission: 72000, totalTrips: 8, totalTourMembers: 105 },
+      { rank: 5, name: "Phitchaya Tinsuraron", sales: 580000, commission: 58000, totalTrips: 7, totalTourMembers: 89 },
+      { rank: 6, name: "Atiporn Kongkla", sales: 450000, commission: 45000, totalTrips: 5, totalTourMembers: 68 },
+      { rank: 7, name: "Natthawat Mongkoldee", sales: 350000, commission: 35000, totalTrips: 4, totalTourMembers: 52 }
+    ],
+    'April 2025': [
+      { rank: 4, name: "Siriporn Simaroj", sales: 850000, commission: 85000, totalTrips: 10, totalTourMembers: 125 },
+      { rank: 5, name: "Phitchaya Tinsuraron", sales: 680000, commission: 68000, totalTrips: 8, totalTourMembers: 95 },
+      { rank: 6, name: "Atiporn Kongkla", sales: 520000, commission: 52000, totalTrips: 6, totalTourMembers: 75 },
+      { rank: 7, name: "Artisorn Wonprasit", sales: 420000, commission: 42000, totalTrips: 5, totalTourMembers: 58 }
+    ],
+    'March 2025': [
+      { rank: 4, name: "Natthawat Mongkoldee", sales: 750000, commission: 75000, totalTrips: 9, totalTourMembers: 110 },
+      { rank: 5, name: "Rittisak Wongworakarn", sales: 620000, commission: 62000, totalTrips: 7, totalTourMembers: 88 },
+      { rank: 6, name: "Atiporn Kongkla", sales: 480000, commission: 48000, totalTrips: 6, totalTourMembers: 72 },
+      { rank: 7, name: "Siriporn Simaroj", sales: 380000, commission: 38000, totalTrips: 4, totalTourMembers: 55 }
+    ]
+  }
+
+  // Get current month's data
+  const summaryData = summaryDataByMonth[selectedMonth as keyof typeof summaryDataByMonth]
+  const topPerformers = topPerformersByMonth[selectedMonth as keyof typeof topPerformersByMonth]
+  const additionalStaff = additionalStaffByMonth[selectedMonth as keyof typeof additionalStaffByMonth]
 
   // Mock data for trip performance
   const tripPerformance = [
