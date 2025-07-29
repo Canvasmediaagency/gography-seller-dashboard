@@ -372,6 +372,7 @@ function SalesReportPage() {
             <p>Current Ranking</p>
             <div className="flex items-center gap-2">
               <p className='text-3xl font-bold text-gray-800'>2<span className='text-gray-600 text-xl font-normal'>/45</span></p>
+                <span className="text-xs text-right text-orange-600">Earn 32,000.- more to level up!</span>
             </div>
           </div>
         </div>

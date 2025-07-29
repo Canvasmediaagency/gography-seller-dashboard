@@ -322,19 +322,19 @@ function SellReportPage() {
       {/* Summary Cards */}
       <div className='grid grid-cols-4 gap-6 mb-6 '>
         <div className='bg-white rounded-2xl p-6 shadow-sm border border-gray-100'>
-          <p className='text-gray-600 text-sm mb-2'>Total Team Sales</p>
+          <p className='text-gray-800 text-md mb-2'>Total Team Sales</p>
           <p className='text-3xl font-bold text-gray-800'>{summaryData.totalTeamSales.toLocaleString()}.-</p>
         </div>
         <div className='bg-white rounded-2xl p-6 shadow-sm border border-gray-100'>
-          <p className='text-gray-600 text-sm mb-2'>Total Branch Commission</p>
+          <p className='text-gray-800 text-md mb-2'>Total Branch Commission</p>
           <p className='text-3xl font-bold text-gray-800'>{summaryData.totalBranchCommission.toLocaleString()}.-</p>
         </div>
           <div className='bg-white rounded-2xl p-6 shadow-sm border border-gray-100'>
-          <p className='text-gray-600 text-sm mb-2'>Total Branch Tours</p>
+          <p className='text-gray-800 text-md mb-2'>Total Branch Tours</p>
           <p className='text-3xl font-bold text-gray-800'>{summaryData.totalBranchTours} <span className='text-lg text-gray-500'>tours</span></p>
         </div>
         <div className='bg-white rounded-2xl p-6 shadow-sm border border-gray-100'>
-          <p className='text-gray-600 text-sm mb-2'>Team Members Served</p>
+          <p className='text-gray-800 text-md mb-2'>Team Members Served</p>
           <p className='text-3xl font-bold text-gray-800'>{summaryData.teamMembersServed} <span className='text-lg text-gray-500'>people</span></p>
         </div>
       
