@@ -6,7 +6,7 @@ import { BsColumnsGap } from "react-icons/bs";
 import { LuPlaneTakeoff } from "react-icons/lu";
 import { TbUsers } from "react-icons/tb";
 import SidebarButton from './ui/SidebarButton'
-import { useActivePage } from '../hooks/useActivePage'
+import { useActivePage } from '../app/hooks/useActivePage'
 import { FiLogOut } from "react-icons/fi";
 
 interface SidebarProps {

@@ -14,10 +14,10 @@ function SalesReportPage() {
 
   // Date Range State - เริ่มต้นเป็น undefined เพื่อแสดง "All"
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
-  
+
   // Total Trips Time Filter State
   const [tripsTimeFilter, setTripsTimeFilter] = useState('6m')
-  
+
   // Chart Time Filter State
   const [chartTimeFilter, setChartTimeFilter] = useState('6m')
 
@@ -114,33 +114,33 @@ function SalesReportPage() {
     // Updated 1y total sales to 459,500.-
     const baseData = {
       '6m': [
-      { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
-      { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
-      { month: 'Mar', sales: 7600, commission: 760, total: 8360 },
-      { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
-      { month: 'May', sales: 9200, commission: 920, total: 10120 }
+        { month: 'Jan', sales: 8500, commission: 850, total: 9350 },
+        { month: 'Feb', sales: 11200, commission: 1120, total: 12320 },
+        { month: 'Mar', sales: 7800, commission: 780, total: 8580 },
+        { month: 'Apr', sales: 13500, commission: 1350, total: 14850 },
+        { month: 'May', sales: 19260, commission: 1926, total: 21186 }
       ],
       '1m': [
-      { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
       ],
       '3m': [
-      { month: 'May', sales: 9200, commission: 920, total: 10120 },
-      { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
-      { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
+        { month: 'May', sales: 9200, commission: 920, total: 10120 },
+        { month: 'Jun', sales: 12000, commission: 1200, total: 13200 },
+        { month: 'Jul', sales: 15000, commission: 1500, total: 16500 }
       ],
       '1y': [
-      { month: 'Jan', sales: 38200, commission: 3820, total: 42020 },
-      { month: 'Feb', sales: 41000, commission: 4100, total: 45100 },
-      { month: 'Mar', sales: 37000, commission: 3700, total: 40700 },
-      { month: 'Apr', sales: 41000, commission: 4100, total: 45100 },
-      { month: 'May', sales: 39000, commission: 3900, total: 42900 },
-      { month: 'Jun', sales: 38000, commission: 3800, total: 41800 },
-      { month: 'Jul', sales: 41000, commission: 4100, total: 45100 },
-      { month: 'Aug', sales: 38000, commission: 3800, total: 41800 },
-      { month: 'Sep', sales: 38000, commission: 3800, total: 41800 },
-      { month: 'Oct', sales: 38000, commission: 3800, total: 41800 },
-      { month: 'Nov', sales: 38000, commission: 3800, total: 41800 },
-      { month: 'Dec', sales: 32300, commission: 3950, total: 43450 }
+        { month: 'Jan', sales: 38200, commission: 3820, total: 42020 },
+        { month: 'Feb', sales: 41000, commission: 4100, total: 45100 },
+        { month: 'Mar', sales: 37000, commission: 3700, total: 40700 },
+        { month: 'Apr', sales: 41000, commission: 4100, total: 45100 },
+        { month: 'May', sales: 39000, commission: 3900, total: 42900 },
+        { month: 'Jun', sales: 38000, commission: 3800, total: 41800 },
+        { month: 'Jul', sales: 41000, commission: 4100, total: 45100 },
+        { month: 'Aug', sales: 38000, commission: 3800, total: 41800 },
+        { month: 'Sep', sales: 38000, commission: 3800, total: 41800 },
+        { month: 'Oct', sales: 38000, commission: 3800, total: 41800 },
+        { month: 'Nov', sales: 38000, commission: 3800, total: 41800 },
+        { month: 'Dec', sales: 32300, commission: 3950, total: 43450 }
       ]
     }
     // 1y sales sum: 38200+41000+37000+41000+39000+38000+41000+38000+38000+38000+38000+39500 = 459,500
@@ -238,11 +238,11 @@ function SalesReportPage() {
         price: '89,000.-',
         commission: '8,900.-'
       },
-      
+
     ]
 
     // Filter trips based on selected time period
-    switch(filter) {
+    switch (filter) {
       case '1m':
         return allTrips.slice(0, 1) // Show only 2 trips for 1 month
       case '3m':
@@ -272,7 +272,7 @@ function SalesReportPage() {
     if (active && payload && payload.length) {
       const salesData = payload.find((p: any) => p.dataKey === 'sales')
       const commissionData = payload.find((p: any) => p.dataKey === 'commission')
-      
+
       // Convert abbreviated month to full name
       const monthNames: { [key: string]: string } = {
         'Jan': 'January',
@@ -288,9 +288,9 @@ function SalesReportPage() {
         'Nov': 'November',
         'Dec': 'December'
       }
-      
+
       const fullMonthName = monthNames[label] || label
-      
+
       return (
         <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 min-w-[120px]">
           <p className="text-sm font-semibold text-gray-800 mb-2">{fullMonthName}</p>
@@ -383,7 +383,7 @@ function SalesReportPage() {
           <div className='rounded-2xl p-4 px-6 border-1 shadow-lg h-full bg-white'>
             <div className='flex justify-between items-center mb-2'>
               <h3 className='text-xl font-bold text-gray-800'>Total Sales Summary</h3>
-              <select 
+              <select
                 className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={chartTimeFilter}
                 onChange={handleChartTimeFilterChange}
@@ -445,8 +445,8 @@ function SalesReportPage() {
               {/* Values below bars - positioned outside chart */}
               <div className='absolute bottom-0 left-0 right-0 h-8 flex items-center justify-between pl-4 pr-8'>
                 {chartData.map((entry, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className='flex-1 flex justify-center'
                     style={{
                       transform: chartTimeFilter === '1y' ? 'rotate(-75deg)' : 'none',
@@ -473,7 +473,7 @@ function SalesReportPage() {
                   onClick={handleEdit}
                   className=' text-gray-800 underline hover:text-orange-600 cursor-pointer'
                 >
-                <CiEdit className='text-2xl' />
+                  <CiEdit className='text-2xl' />
                 </button>
               ) : (
                 <div className='flex gap-2'>
@@ -528,7 +528,7 @@ function SalesReportPage() {
 
             {/* Trip List */}
             <div>
-                <h4 className='font-semibold text-gray-800 mb-3'>Top 3 Best-Selling Trips</h4>
+              <h4 className='font-semibold text-gray-800 mb-3'>Top 3 Best-Selling Trips</h4>
               <div className='flex gap-3'>
                 {[
                   {
@@ -554,7 +554,7 @@ function SalesReportPage() {
                   }
                 ].map((trip, idx) => (
                   <div key={idx} className='flex-1 border border-gray-200 rounded-lg overflow-hidden'>
-                    <img 
+                    <img
                       src={trip.image}
                       alt={trip.name}
                       className="w-full h-22 object-cover"
@@ -573,7 +573,7 @@ function SalesReportPage() {
                         </div>
                       </div>
                     </div>
-                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -591,7 +591,7 @@ function SalesReportPage() {
             </span>
           </div>
           <div className='flex items-center gap-2'>
-            <select 
+            <select
               className="px-3 py-1 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={tripsTimeFilter}
               onChange={handleTripsTimeFilterChange}
@@ -610,42 +610,42 @@ function SalesReportPage() {
             {/* Table Header */}
             <thead>
               <tr>
-          <th className="text-left px-4 py-2 text-md font-normal text-gray-700 w-[360px]">Trip Name</th>
-          <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
-          <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
-          <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
-          <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700 w-[360px]">Trip Name</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Travel Date</th>
+                <th className="text-left px-4 py-2 text-md font-normal text-gray-700">Customers</th>
+                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Trip Price (per person)</th>
+                <th className="text-right px-4 py-2 text-md font-normal text-gray-700">Total Commission</th>
               </tr>
             </thead>
 
             {/* Table Body */}
             <tbody>
               {tripsData.map((trip) => (
-              <tr key={trip.id}>
-                {/* Trip Name */}
-                <td className="p-4 w-[260px]">
-                <div className="flex items-center gap-3">
-                  <img 
-                  src={trip.image} 
-                  alt={trip.name}
-                  className="w-24 h-16 rounded-lg object-cover flex-shrink-0"
-                  />
-                  <div className="truncate max-w-[300px]">
-                  <p
-                    className="text-gray-800 truncate"
-                    title={trip.name}
-                  >
-                    {trip.name}
-                  </p>
-                  <p
-                    className="text-sm text-gray-600 truncate"
-                    title={trip.location}
-                  >
-                    {trip.location}
-                  </p>
-                  </div>
-                </div>
-                </td>
+                <tr key={trip.id}>
+                  {/* Trip Name */}
+                  <td className="p-4 w-[260px]">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={trip.image}
+                        alt={trip.name}
+                        className="w-24 h-16 rounded-lg object-cover flex-shrink-0"
+                      />
+                      <div className="truncate max-w-[300px]">
+                        <p
+                          className="text-gray-800 truncate"
+                          title={trip.name}
+                        >
+                          {trip.name}
+                        </p>
+                        <p
+                          className="text-sm text-gray-600 truncate"
+                          title={trip.location}
+                        >
+                          {trip.location}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
 
                   {/* Date */}
                   <td className="p-4">
@@ -662,7 +662,7 @@ function SalesReportPage() {
                               const seatIdx = rowIdx * 5 + colIdx
                               const seat = trip.seats[seatIdx]
                               const getStatusColor = (status: string) => {
-                                switch(status) {
+                                switch (status) {
                                   case 'done': return 'bg-orange-600'
                                   case 'cancel': return 'bg-gray-800'
                                   case 'pending': return 'bg-gray-300'
