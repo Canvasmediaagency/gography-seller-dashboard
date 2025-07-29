@@ -238,12 +238,25 @@ function TripsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Trip Information</h1>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-center h-40">
-            <div className="text-gray-500">Loading trips...</div>
-          </div>
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="p-8 flex items-center justify-center">
+          <svg className="animate-spin h-8 w-8 text-gray-500 mr-3" viewBox="0 0 24 24">
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              fill="none"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+          <span className="text-gray-500 text-lg">Loading trips...</span>
         </div>
       </div>
     )
@@ -252,7 +265,6 @@ function TripsPage() {
   if (error) {
     return (
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Trip Information</h1>
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="text-center text-red-600">
             <p>Error loading trips: {error}</p>
